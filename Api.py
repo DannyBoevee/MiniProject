@@ -40,7 +40,7 @@ class Api:
         """
             Krijg huidige datum
         :return:
-            Dag - Maand - Jaar
+            (String) Dag - Maand - Jaar
         """
         return time.strftime(time.strftime("%d-%m-%Y"))
 
@@ -48,9 +48,9 @@ class Api:
         """
         Het verkrijgen van alle films op de gekozen dag.
         :param date:
-            Invoer ("Dag - Maand - Jaar")
+            (String) Dag - Maand - Jaar
         :return:
-            List met alle titels
+            (List) Alle titels
         """
         data = self.getApiData(date, "0")
         movies = []
@@ -62,9 +62,49 @@ class Api:
         """
         Het verkrijgen van alle films op de gekozen dag.
         :param date:
-            Invoer ("Dag - Maand - Jaar")
+            (String) Dag - Maand - Jaar
         :return:
-            String met de tip van de dag
+            (String) met de tip van de dag
         """
         data = self.getApiData(date, "2")
         return data['titel']
+
+    def getMovieDescription(self, movieTitle, date):
+        """
+            Het verkrijgen van de film beschrijving
+        :param movieTitle:
+            (String) De titel van de film
+        :param date:
+            (String) Dag - Maand - Jaar
+        :return:
+            Wanneer de film is gevonden:
+                (Dictonairy):
+                    ft_link
+                    titel
+                    jaar
+                    regisseur
+                    cast
+                    genre
+                    land
+                    cover
+                    tagline
+                    duur
+                    synopsis
+                    ft_rating
+                    ft_votes
+                    imdb_id
+                    imdb_rating
+                    imdb_votes
+                    starttijd
+                    eindtijd
+                    zender
+                    filmtip
+            Zodra de film niet is gevonden:
+                (Boolean) False
+            """
+        data = self.getApiData(date, "0")
+        for movie in data:
+            if (movie['titel'] == movieTitle):
+                return movie
+            else:
+                return False
