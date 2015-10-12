@@ -1,1 +1,4 @@
-__author__ = 'David'
+class Api:
+    def __init__(self):
+        pass
+    
