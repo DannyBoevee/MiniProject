@@ -58,5 +58,13 @@ class Api:
             movies.append(movie['titel'])
         return movies
 
-api = Api()
-api.getMovieList(api.getCurrentTime())
+    def getDailyrRecommendable(self, date):
+        """
+        Het verkrijgen van alle films op de gekozen dag.
+        :param date:
+            Invoer ("Dag - Maand - Jaar")
+        :return:
+            List met de tip van de dag
+        """
+        data = self.getApiData(date, "2")
+        return data['titel']
