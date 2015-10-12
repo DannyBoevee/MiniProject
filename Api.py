@@ -3,10 +3,14 @@ import time
 
 class Api:
     api_key = None
+    api_web = None
 
     def __init__(self):
-        api_key = '9smtwozmiugid4m8m5f9n6g1oaiwt6r4'
-        api_web = 'http://www.filmtotaal.nl/api/filmsoptv.xml?apikey='
+        self.api_key = '9smtwozmiugid4m8m5f9n6g1oaiwt6r4'
+        self.api_web = 'http://www.filmtotaal.nl/api/filmsoptv.xml'
+
+    def getApiUrl(self, date, sort):
+        return "{0}?apikey={1}&dag={2}&sorteer={3}" . format(self.api_web, self.api_key, date, sort)
 
     def getCurrentTime(self):
         """
