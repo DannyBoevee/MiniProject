@@ -64,7 +64,7 @@ class Api:
         :param date:
             Invoer ("Dag - Maand - Jaar")
         :return:
-            List met de tip van de dag
+            String met de tip van de dag
         """
         data = self.getApiData(date, "2")
         return data['titel']
