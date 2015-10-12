@@ -1,1 +1,113 @@
 __author__ = 'David'
+
+import tkinter as tk
+from DataBase import *
+
+TITLE_FONT = ("Helvetica", 15, "bold")
+BASE_FONT = ("Helvetica", 10)
+
+
+class ScreenController(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        # the container is where we'll stack a bunch of frames
+        # on top of each other, then the one we want visible
+        # will be raised above the others
+        self.container = tk.Frame(self)
+        self.container.pack(side="top", fill="both", expand=True)
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (LoginScreen, FilmLijst):
+            frame = F(self.container, self)
+            self.frames[F] = frame
+            # put all of the pages in the same location;
+            # the one on the top of the stacking order
+            # will be the one that is visible.
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(LoginScreen)
+
+    def show_frame(self, c):
+        '''Show a frame for the given class'''
+        frame = self.frames[c]
+        frame.tkraise()
+        self.setPosSize(frame.getSize())
+
+    def setPosSize(self, size):
+        self.container.update_idletasks()
+        w = self.container.winfo_screenwidth()
+        h = self.container.winfo_screenheight()
+        x = int(w / 2 - size[0] / 2)
+        y = int(h / 2 - size[1] / 2)
+        self.container.master.geometry("%dx%d+%d+%d" % (size + (x, y)))
+
+
+class LoginScreen(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        # controller.setPosSize(200, 100, parent)
+        label = tk.Label(self, text="Login", font=TITLE_FONT)
+        label.grid(row=0, columnspan=4)
+
+        label = tk.Label(self, text="Gebruikersnaam: ", font=BASE_FONT)
+        label.grid(row=1, column=1)
+        self.username = tk.Entry(self, font=BASE_FONT)
+        self.username.grid(row=1, column=2)
+        self.username.focus_set()
+        label = tk.Label(self, text="Login", font=BASE_FONT)
+        label.grid(row=2, column=1)
+        self.password = tk.Entry(self, show="*", font=BASE_FONT)
+        self.password.grid(row=2, column=2)
+
+        self.error = tk.Label(self, text="", font=BASE_FONT)
+        self.error.grid(row=3, column=1, columnspan=2)
+
+        button = tk.Button(self, text="Login", command=lambda: self.Login(controller), font=BASE_FONT)
+        button.grid(row=3, column=4)
+
+    def getSize(self):
+        return (300, 130)
+
+    def Login(self, controller):
+        db = DataBase()
+        if db.checkLogin(self.username.get(), self.password.get()):
+            controller.show_frame(FilmLijst)
+        else:
+            self.error.config(text='Gegevens zijn onjuist')
+
+
+class FilmLijst(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Login", font=TITLE_FONT)
+        label.grid(row=0, columnspan=5)
+        button = tk.Button(self, text="Logout",
+                           command=lambda: self.Logout(controller), font=BASE_FONT)
+        button.grid(row=1, column=5)
+
+    def getSize(self):
+        return (100, 100)
+
+    def Logout(self, controller):
+        controller.show_frame(LoginScreen)
+        pass
+
+
+class FilmDetails(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Login", font=TITLE_FONT)
+        label.grid(row=0, columnspan=5)
+        button = tk.Button(self, text="Logout",
+                           command=lambda: self.Logout(controller), font=BASE_FONT)
+        button.grid(row=1, column=5)
+
+    def getSize(self):
+        return (100, 100)
+
+    def Logout(self, controller):
+        controller.show_frame(LoginScreen)
+        pass
