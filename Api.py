@@ -44,3 +44,19 @@ class Api:
         """
         return time.strftime(time.strftime("%d-%m-%Y"))
 
+    def getMovieList(self, date):
+        """
+        Het verkrijgen van alle films op de gekozen dag.
+        :param date:
+            Invoer ("Dag - Maand - Jaar")
+        :return:
+            List met alle titels
+        """
+        data = self.getApiData(date, "0")
+        movies = []
+        for movie in data:
+            movies.append(movie['titel'])
+        return movies
+
+api = Api()
+api.getMovieList(api.getCurrentTime())
