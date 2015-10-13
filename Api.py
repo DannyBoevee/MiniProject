@@ -133,6 +133,3 @@ class Api:
                 return movie
             else:
                 return False
-
-api = Api()
-api.getMovieList(api.getCurrentTime())
