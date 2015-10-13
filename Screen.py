@@ -2,6 +2,7 @@ import tkinter as tk
 from DataBase import *
 from Api import *
 from tkinter import *
+import datetime
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -95,8 +96,15 @@ class FilmLijst(tk.Frame):
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
-            titel = tk.Label(self, text=titel['title']+titel['starttijd'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            titel.grid(ipadx=25)
+            tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
+            titel = tk.Label(self, text=titel['title']+"""
+            """+str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            titel.grid()
+            gif_image = tk.PhotoImage(str(titel['image']))
+            b1 = tk.Button(self, image=gif_image)
+            b1.grid(pady=10)
+            # save the button image from garbage collection!
+            b1.image = gif_image
 
 
     def getSize(self):
