@@ -73,7 +73,6 @@ class Api:
         movies = []
         for movie in data:
             image = self.getMovieImage(movie['ft_link'])
-            print(image)
             movies.append({"title": movie['titel'], "starttijd": movie['starttijd'], "image": image})
         return movies
 
