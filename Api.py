@@ -1,6 +1,7 @@
 import requests
 import time
 import xmltodict
+import base64
 
 class Api:
     api_key = None
@@ -59,7 +60,9 @@ class Api:
         data = str(data)
         line = data.split('<div id="film_cover"')
         imageUrl = line[1][17:45]
-        return requests.get("http://www.filmtotaal.nl/" + imageUrl).content
+        image = requests.get("http://www.filmtotaal.nl/" + imageUrl).content
+        encoded_string = base64.b64encode(image)
+        return encoded_string
 
     def getMovieList(self, date):
         """
@@ -126,4 +129,3 @@ class Api:
                 return movie
             else:
                 return False
-
