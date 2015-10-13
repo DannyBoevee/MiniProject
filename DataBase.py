@@ -40,7 +40,8 @@ class DataBase:
             with self.connection.cursor() as cursor:
                 sql = "INSERT INTO usersFilms (userId, filmId) VALUES ($s, %s)"
                 cursor.execute(sql, (userid, filmId))
-
+            self.connection.commit()
+            return True
         except Exception as e:
             print('Fout bij het opslaan van de film id')
             return False
