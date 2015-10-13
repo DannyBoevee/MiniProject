@@ -35,9 +35,11 @@ class ScreenController(tk.Tk):
 
         self.show_frame(LoginScreen)
 
-    def show_frame(self, c):
+    def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
         frame = self.frames[c]
+        if "setData" in dir(frame):
+            frame.setData(data)
         frame.tkraise()
         self.setPosSize(frame.getSize())
 
@@ -101,7 +103,7 @@ class FilmLijst(tk.Frame):
             """+str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             titel.grid()
             gif_image = tk.PhotoImage(str(titel['image']))
-            b1 = tk.Button(self, image=gif_image)
+            b1 = tk.Button(self, command=lambda: self.details(controller, titel), image=gif_image)
             b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = gif_image
@@ -112,6 +114,10 @@ class FilmLijst(tk.Frame):
 
     def Logout(self, controller):
         controller.show_frame(LoginScreen)
+        pass
+
+    def details(self, controller, data):
+        controller.show_frame(LoginScreen, data=data)
         pass
 
 
@@ -127,7 +133,9 @@ class FilmDetails(tk.Frame):
     def getSize(self):
         return (100, 100)
 
-    def Logout(self, controller):
+    def Terug(self, controller):
         controller.show_frame(LoginScreen)
+
+    def setData(self, data):
         pass
     
