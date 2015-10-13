@@ -59,13 +59,9 @@ class Api:
         data = str(data)
         line = data.split('<div id="film_cover"')
         imageUrl = line[1][17:45]
-        try:
-            file = open('images/'+ imageUrl[14:-4] +'.jpg', 'wb')
+        with open('images/'+ imageUrl[14:-4] +'.jpg', 'wb') as file:
             file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
-        except:
-            return False
-        finally:
-            file.close()
+
         return 'images/'+ imageUrl[14:]
 
     def getMovieList(self, date):
