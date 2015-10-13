@@ -124,12 +124,15 @@ class FilmLijst(tk.Frame):
 class FilmDetails(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Login", font=TITLE_FONT)
-        label.grid(row=0, columnspan=5)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, columnspan=5, ipadx=25)
         button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=BASE_FONT)
-        button.grid(row=1, column=5)
+                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+        button.grid(row=0, column=5, ipadx=1050)
 
+        #api = Api()
+        #tk.Text(api.getMovieDescription("Thunderball",api.getCurrentTime()))
     def getSize(self):
         return (100, 100)
 
