@@ -1,6 +1,7 @@
 import requests
 import time
 import xmltodict
+import base64
 
 class Api:
     api_key = None
@@ -11,6 +12,16 @@ class Api:
         self.api_web = 'http://www.filmtotaal.nl/api/filmsoptv.xml'
 
     def getApiUrl(self, date, sort):
+        """
+            Verkrijgen van de Api Url
+        :param date:
+            (String) Dag - Maand - Jaar
+        :param sort:
+            0 = Alle films
+            1 = filmtips
+            2 = film van de dag
+        :return:
+        """
         return "{0}?apikey={1}&dag={2}&sorteer={3}" . format(self.api_web, self.api_key, date, sort)
 
     def getApiData(self, date, sort):
@@ -44,6 +55,15 @@ class Api:
         """
         return time.strftime(time.strftime("%d-%m-%Y"))
 
+    def getMovieImage(self, url):
+        data = requests.get(url).content
+        data = str(data)
+        line = data.split('<div id="film_cover"')
+        imageUrl = line[1][17:45]
+        image = requests.get("http://www.filmtotaal.nl/" + imageUrl).content
+        encoded_string = base64.b64encode(image)
+        return encoded_string
+
     def getMovieList(self, date):
         """
         Het verkrijgen van alle films op de gekozen dag.
@@ -55,7 +75,8 @@ class Api:
         data = self.getApiData(date, "0")
         movies = []
         for movie in data:
-            movies.append(movie['titel'])
+            image = self.getMovieImage(movie['ft_link'])
+            movies.append({"title": movie['titel'], "starttijd": movie['starttijd'], "image": image})
         return movies
 
     def getDailyrRecommendable(self, date):
