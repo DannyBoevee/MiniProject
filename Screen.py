@@ -1,5 +1,6 @@
 import tkinter as tk
 from DataBase import *
+from Api import *
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -86,13 +87,16 @@ class FilmLijst(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        label.grid(row=0, columnspan=5)
+        label.grid(row=1, columnspan=5, padx=25)
         button = tk.Button(self, text="Logout",
                            command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
-        button.grid(row=0, column=5, ipadx=1100)
+        button.grid(row=0, column=5, ipadx=1050)
+        apis = Api()
+        movie_list = apis.getMovieList(apis.getCurrentTime())
+
 
     def getSize(self):
-        return (100, 100)
+        return (700, 700)
 
     def Logout(self, controller):
         controller.show_frame(LoginScreen)
