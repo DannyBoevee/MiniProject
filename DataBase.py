@@ -38,9 +38,9 @@ class DataBase:
         global userid
         try:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO usersFilms (userId, filmId) VALUES ($s, %s)"
+                sql = "INSERT INTO usersFilms (userId, filmId) VALUES (%s, %s)"
                 cursor.execute(sql, (userid, filmId))
-
+            self.connection.commit()
         except Exception as e:
             print('Fout bij het opslaan van de film id')
             return False

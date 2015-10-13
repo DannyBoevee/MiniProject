@@ -3,6 +3,7 @@ import time
 import xmltodict
 import base64
 
+
 class Api:
     api_key = None
     api_web = None
@@ -22,7 +23,7 @@ class Api:
             2 = film van de dag
         :return:
         """
-        return "{0}?apikey={1}&dag={2}&sorteer={3}" . format(self.api_web, self.api_key, date, sort)
+        return "{0}?apikey={1}&dag={2}&sorteer={3}".format(self.api_web, self.api_key, date, sort)
 
     def getApiData(self, date, sort):
         """
@@ -125,7 +126,7 @@ class Api:
             """
         data = self.getApiData(date, "0")
         for movie in data:
-            if (movie['titel'] == movieTitle):
+            if movie['titel'] == movieTitle:
                 return movie
             else:
                 return False

@@ -1,8 +1,7 @@
 import tkinter as tk
+import datetime
 from DataBase import *
 from Api import *
-from tkinter import *
-import datetime
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -93,23 +92,22 @@ class FilmLijst(tk.Frame):
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, columnspan=5, ipadx=25)
         button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
         button.grid(row=0, column=5, ipadx=1050)
 
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titel = tk.Label(self, text=titel['title']+"""
-            """+str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            titel = tk.Label(self, text=titel['title'] + """
+            """ + str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             titel.grid()
             gif_image = tk.PhotoImage(str(titel['image']))
             b1 = tk.Button(self, command=lambda: self.details(controller, titel), image=gif_image)
             b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = gif_image
-
-
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
@@ -123,7 +121,6 @@ class FilmLijst(tk.Frame):
         pass
 
 
-
 class FilmDetails(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -131,22 +128,22 @@ class FilmDetails(tk.Frame):
         label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
         button.grid(row=0, column=4, ipadx=600)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
         button.grid(row=1, column=4, ipadx=600)
         api = Api()
         rij = 6
 
-        for regel in api.getMovieDescription("Thunderball",api.getCurrentTime()).items():
+        for regel in api.getMovieDescription("Thunderball", api.getCurrentTime()).items():
             info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            info.grid(row=rij,column=1 )
+            info.grid(row=rij, column=1)
             info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            info.grid(row=rij, column=4 )
-            rij +=9
-
-
+            info.grid(row=rij, column=4)
+            rij += 9
 
     def Logout(self, controller):
         controller.show_frame(LoginScreen)
@@ -156,11 +153,5 @@ class FilmDetails(tk.Frame):
         controller.show_frame(FilmLijst)
         pass
 
-
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
-
-
-    def setData(self, data):
-        pass
-    
