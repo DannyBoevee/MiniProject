@@ -3,6 +3,10 @@ from DataBase import *
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
+FL_BG_COLOR = "#800000"
+FL_TEXT_COLOR = '#FFFFFF'
+FL_TITLE_FONT = ("Helvetica", 50, "bold")
+FL_BASE_FONT = ("Helvetica", 10)
 
 
 class ScreenController(tk.Tk):
@@ -80,11 +84,12 @@ class LoginScreen(tk.Frame):
 class FilmLijst(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Login", font=TITLE_FONT)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=0, columnspan=5)
         button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=BASE_FONT)
-        button.grid(row=1, column=5)
+                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+        button.grid(row=0, column=5, ipadx=1100)
 
     def getSize(self):
         return (100, 100)
