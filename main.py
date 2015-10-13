@@ -1,1 +1,4 @@
-__author__ = 'David'
+import Screen
+
+app = Screen.ScreenController()
+app.mainloop()
