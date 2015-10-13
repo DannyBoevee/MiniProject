@@ -25,7 +25,7 @@ class ScreenController(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginScreen, FilmLijst):
+        for F in (LoginScreen, FilmLijst, FilmDetails):
             frame = F(self.container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -117,7 +117,7 @@ class FilmLijst(tk.Frame):
         pass
 
     def details(self, controller, data):
-        controller.show_frame(LoginScreen, data=data)
+        controller.show_frame(FilmDetails, data=data)
         pass
 
 
