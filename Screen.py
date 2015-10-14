@@ -25,7 +25,7 @@ class ScreenController(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginScreen, FilmLijst, FilmDetails, FilmAanmelden):
+        for F in (LoginScreen, FilmLijst, FilmDetails, FilmAanmelden, AanbiederLijst):
             frame = F(self.container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -81,7 +81,7 @@ class LoginScreen(tk.Frame):
     def Login(self, controller):
         db = DataBase()
         if db.checkLogin(self.username.get(), self.password.get()):
-            controller.show_frame(FilmLijst)
+            controller.show_frame(AanbiederLijst)
         else:
             self.error.config(text='Gegevens zijn onjuist')
 
@@ -100,10 +100,12 @@ class FilmLijst(tk.Frame):
         uitleg = tk.Label(self,
                           text="Klik op een plaatje of titel voor informatie over de film of om een kaartje te kopen.",
                           font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        uitleg.grid(row=2, sticky='w', padx=25, pady=50, columnspan=5)
+        uitleg.grid(row=2, sticky='w', padx=25, pady=40, columnspan=5)
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
         col = 0
+        namen = ['Jan', 'Pieter', 'Henk', 'Flip', 'Kees', 'Gerrit', 'Mike']
+        i = 0
         for titel in movie_list:
             images = ImageTk.PhotoImage(Image.open(str(titel['image'])))
             b1 = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), image=images, height=290,
@@ -112,13 +114,23 @@ class FilmLijst(tk.Frame):
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['titel'],
+            titel['aanbieder'] = namen[i]
+            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
                                  font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat",
                                  activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
             titelbtn.grid(row=4, column=col)
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid(row=5, column=col)
             col += 1
+            if i is len(namen) - 1:
+                i = 0
+            else:
+                i += 1
+        aanbiedcol = 0
+        for aanbiedernamen in namen:
+            aanbieders = tk.Label(self, text=aanbiedernamen, font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            aanbieders.grid(row=6, column=aanbiedcol)
+            aanbiedcol += 1
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
@@ -142,9 +154,9 @@ class FilmDetails(tk.Frame):
                            relief='flat')
         button.grid(row=1, column=2, ipadx=300)
         aanmelden = tk.Button(self, text="Aanmelden",
-                                   command=lambda: self.aanmelden(controller),
-                                   font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                                   relief='flat')
+                              command=lambda: self.aanmelden(controller),
+                              font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                              relief='flat')
         aanmelden.grid(row=0, column=2, ipadx=300)
 
         # De titel van de film
@@ -202,7 +214,6 @@ class FilmDetails(tk.Frame):
 
     def setData(self, data):
         api = Api()
-
         data = api.getMovieDescription(data["titel"], api.getCurrentTime())
         self.data = data
         self.titel['text'] = data['titel']
@@ -221,7 +232,8 @@ class FilmAanmelden(tk.Frame):
         label = tk.Label(self, text="Aanmelden", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda controller=controller: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           command=lambda controller=controller: self.Terug(controller), font=FL_BASE_FONT,
+                           bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=2, ipadx=300)
 
@@ -232,12 +244,11 @@ class FilmAanmelden(tk.Frame):
         self.email.focus_set()
         label = tk.Label(self, text="Naam:", font=("Helvetica", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=4, column=1)
-        self.naam = tk.Entry(self, width=100,  font=BASE_FONT)
+        self.naam = tk.Entry(self, width=100, font=BASE_FONT)
         self.naam.grid(row=4, column=2)
 
         button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(), font=BASE_FONT)
         button_ok.grid(row=5, column=2)
-
 
     def Terug(self, controller):
         controller.show_frame(FilmDetails, self.data)
@@ -249,6 +260,34 @@ class FilmAanmelden(tk.Frame):
         self.data = data
 
     def aanmelden(self):
-        api= Api()
+        api = Api()
         db = DataBase()
-        db.saveFilm(self.data["titel"],self.data["aanbieder"],api.getCurrentTime() , "", self.naam.get(), self.email.get() )
+        db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), "", self.naam.get(),
+                    self.email.get())
+
+
+class AanbiederLijst(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Gasten", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=1, ipadx=25)
+        button = tk.Button(self, text="Terug",
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
+        button.grid(row=1, column=4, ipadx=600)
+        titel = tk.Label(self, text="Titel")
+        titel.grid(row=2, column=1)
+        self.titel = tk.Label(self, text="")
+        self.titel.grid(row=2, column=3)
+        jaar = tk.Label(self, text="Jaar")
+        jaar.grid(row=2, column=1)
+        self.jaar = tk.Label(self, text="")
+        self.jaar.grid(row=2, column=3)
+
+    def Terug(self, controller):
+        controller.show_frame(LoginScreen)
+        pass
+
+    def getSize(self):
+        return (self.winfo_screenwidth(), self.winfo_screenheight())
