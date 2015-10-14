@@ -28,7 +28,7 @@ class DataBase:
             if result == None:
                 return False
             else:
-                userid = result['username']
+                aanbieder = result['username']
                 return True
         except Exception as e:
             print('Fout bij het verkrijgen van de user')
@@ -49,10 +49,14 @@ class DataBase:
         global aanbieder
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s"
+                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s  ORDER  BY film"
                 cursor.execute(sql, (aanbieder, date))
-            self.connection.commit()
+                result = cursor.fetchone()
+            if result == None:
+                return True
+            else:
+                return result
             return True
         except Exception as e:
-            print('Fout bij het opslaan van de film')
+            print('Fout bij het ophalen van gasten')
             return False
