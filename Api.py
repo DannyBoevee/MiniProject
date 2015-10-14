@@ -2,6 +2,7 @@ import requests
 import time
 import os
 import xmltodict
+import base64
 
 
 class Api:
