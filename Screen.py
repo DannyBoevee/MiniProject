@@ -90,11 +90,11 @@ class FilmLijst(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        label.grid(row=1, columnspan=1, column=0, sticky=W, padx=25)
+        label.grid(row=1, columnspan=1, column=0, sticky='w', padx=25)
         uitleg = tk.Label(self, text="Klik op een plaatje voor informatie over de film of om een kaartje te kopen.", font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        uitleg.grid(row=2, sticky=W, padx=25, pady=25)
-        button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+        uitleg.grid(row=2, sticky='w', padx=25, pady=25)
+        button = tk.Button(self, text="Login",
+                           command=lambda: self.Login(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
         button.grid(row=0, column=1, ipadx=820)
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
@@ -105,7 +105,7 @@ class FilmLijst(tk.Frame):
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titel = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat")
+            titel = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat", activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
             titel.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
