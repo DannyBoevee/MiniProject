@@ -2,6 +2,7 @@ import tkinter as tk
 import datetime
 from DataBase import *
 from Api import *
+from PIL import Image, ImageTk
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -95,26 +96,28 @@ class FilmLijst(tk.Frame):
                            activeforeground=FL_TEXT_COLOR)
         button.grid(row=0)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        label.grid(row=1, column=0, sticky='w', padx=25)
+        label.grid(row=1, column=0, sticky='w', padx=25, columnspan=5)
         uitleg = tk.Label(self, text="Klik op een plaatje voor informatie over de film of om een kaartje te kopen.",
                           font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        uitleg.grid(row=2, sticky='w', padx=25)
+        uitleg.grid(row=2, sticky='w', padx=25, columnspan=5)
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
+        col = 0
         for titel in movie_list:
-            images = tk.PhotoImage(str(titel['image']))
+            images = ImageTk.PhotoImage(Image.open(str(titel['image'])))
             b1 = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), image=images, height=125,
                            width=100)
-            b1.grid(pady=10)
+            b1.grid(row=3, column=col, pady=10)
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
             titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
                                  font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
                                  fg=FL_TEXT_COLOR, relief="flat")
-            titelbtn.grid()
+            titelbtn.grid(row=4, column=col)
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            starttijd.grid()
+            starttijd.grid(row=5, column=col)
+            col+=1
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
