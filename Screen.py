@@ -32,7 +32,7 @@ class ScreenController(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(LoginScreen)
+        self.show_frame(FilmLijst)
 
     def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
