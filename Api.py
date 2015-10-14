@@ -1,9 +1,7 @@
 import time
 import os
-
 import requests
 import xmltodict
-
 
 
 class Api:
@@ -128,10 +126,13 @@ class Api:
                     filmtip
             Zodra de film niet is gevonden:
                 (Boolean) False
+
+                
             """
         data = self.getApiData(date, "0")
+        print(data)
         for movie in data:
             if movie['titel'] == movieTitle:
                 return movie
-            else:
-                return False
+
+        return False

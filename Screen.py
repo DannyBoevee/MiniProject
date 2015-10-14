@@ -103,18 +103,18 @@ class FilmLijst(tk.Frame):
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             images = tk.PhotoImage(str(titel['image']))
-            b1 = tk.Button(self, image=images, height=125, width=100)
-            b1.grid()
+            b1 = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), image=images, height=125,
+                           width=100)
+            b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titelbtn = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
-                                 fg=FL_TEXT_COLOR, relief="flat", activebackground=FL_BG_COLOR,
-                                 activeforeground=FL_TEXT_COLOR)
+            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
+                                 font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
+                                 fg=FL_TEXT_COLOR, relief="flat")
             titelbtn.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
-
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
@@ -136,15 +136,14 @@ class FilmDetails(tk.Frame):
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=4, ipadx=600)
-        api = Api()
-        rij = 6
-
-        for regel in api.getMovieDescription("Les Dames", api.getCurrentTime()).items():
-            info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            info.grid(row=rij, column=1)
-            info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            info.grid(row=rij, column=4)
-            rij += 9
+        titel = tk.Label(self, text="Titel")
+        titel.grid(row=2, column=1)
+        self.titel = tk.Label(self, text="")
+        self.titel.grid(row=2, column=3)
+        jaar = tk.Label(self, text="Jaar")
+        jaar.grid(row=2, column=1)
+        self.jaar = tk.Label(self, text="")
+        self.jaar.grid(row=2, column=3)
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
@@ -152,3 +151,8 @@ class FilmDetails(tk.Frame):
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
+
+    def setData(self, data):
+        api = Api()
+        rij = 6
+        self.titel['text'] = data['title']
