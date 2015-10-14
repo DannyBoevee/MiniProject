@@ -25,7 +25,7 @@ class ScreenController(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginScreen, FilmLijst, FilmDetails):
+        for F in (LoginScreen, FilmLijst, FilmDetails, AanbiederLijst):
             frame = F(self.container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -81,7 +81,7 @@ class LoginScreen(tk.Frame):
     def Login(self, controller):
         db = DataBase()
         if db.checkLogin(self.username.get(), self.password.get()):
-            controller.show_frame(FilmLijst)
+            controller.show_frame(AanbiederLijst)
         else:
             self.error.config(text='Gegevens zijn onjuist')
 
@@ -159,3 +159,30 @@ class FilmDetails(tk.Frame):
         api = Api()
         rij = 6
         self.titel['text'] = data['title']
+
+
+class AanbiederLijst(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=1, ipadx=25)
+        button = tk.Button(self, text="Terug",
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
+        button.grid(row=1, column=4, ipadx=600)
+        titel = tk.Label(self, text="Titel")
+        titel.grid(row=2, column=1)
+        self.titel = tk.Label(self, text="")
+        self.titel.grid(row=2, column=3)
+        jaar = tk.Label(self, text="Jaar")
+        jaar.grid(row=2, column=1)
+        self.jaar = tk.Label(self, text="")
+        self.jaar.grid(row=2, column=3)
+
+    def Terug(self, controller):
+        controller.show_frame(LoginScreen)
+        pass
+
+    def getSize(self):
+        return (self.winfo_screenwidth(), self.winfo_screenheight())
