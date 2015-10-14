@@ -91,7 +91,7 @@ class FilmLijst(tk.Frame):
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, columnspan=5, ipadx=25)
-        button = tk.Button(self, text="Logout",
+        button = tk.Button(self, text="Login",
                            command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=0, column=5, ipadx=1050)
@@ -111,7 +111,7 @@ class FilmLijst(tk.Frame):
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
-    def Logout(self, controller):
+    def Login(self, controller):
         controller.show_frame(LoginScreen)
 
     def details(self, controller, data):

@@ -2,6 +2,7 @@ import requests
 import time
 import xmltodict
 
+
 class Api:
     api_key = None
     api_web = None
@@ -21,7 +22,7 @@ class Api:
             2 = film van de dag
         :return:
         """
-        return "{0}?apikey={1}&dag={2}&sorteer={3}" . format(self.api_web, self.api_key, date, sort)
+        return "{0}?apikey={1}&dag={2}&sorteer={3}".format(self.api_web, self.api_key, date, sort)
 
     def getApiData(self, date, sort):
         """
@@ -59,10 +60,10 @@ class Api:
         data = str(data)
         line = data.split('<div id="film_cover"')
         imageUrl = line[1][17:45]
-        with open('images/'+ imageUrl[14:-4] +'.jpg', 'wb') as file:
+        with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
             file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
 
-        return 'images/'+ imageUrl[14:]
+        return 'images/' + imageUrl[14:]
 
     def getMovieList(self, date):
         """
