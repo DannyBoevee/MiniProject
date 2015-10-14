@@ -3,6 +3,7 @@ import datetime
 from DataBase import *
 from Api import *
 from PIL import Image, ImageTk
+from uuid import uuid4
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -25,7 +26,7 @@ class ScreenController(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginScreen, FilmLijst, FilmDetails, FilmAanmelden, AanbiederLijst):
+        for F in (LoginScreen, FilmLijst, FilmDetails, FilmAanmelden, AanbiederLijst, qrFrame):
             frame = F(self.container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -40,6 +41,8 @@ class ScreenController(tk.Tk):
         frame = self.frames[c]
         if "setData" in dir(frame):
             frame.setData(data)
+        if "Show" in dir(frame):
+            frame.Show()
         frame.tkraise()
         self.setPosSize(frame.getSize())
 
@@ -72,6 +75,8 @@ class LoginScreen(tk.Frame):
         self.error = tk.Label(self, text="", font=BASE_FONT)
         self.error.grid(row=3, column=1, columnspan=2)
 
+        button = tk.Button(self, text="Terug", command=lambda: self.Terug(controller), font=BASE_FONT)
+        button.grid(row=3, column=3)
         button = tk.Button(self, text="Login", command=lambda: self.Login(controller), font=BASE_FONT)
         button.grid(row=3, column=4)
 
@@ -84,6 +89,9 @@ class LoginScreen(tk.Frame):
             controller.show_frame(AanbiederLijst)
         else:
             self.error.config(text='Gegevens zijn onjuist')
+
+    def Terug(self, controller):
+        controller.show_frame(FilmLijst)
 
 
 class FilmLijst(tk.Frame):
@@ -249,7 +257,7 @@ class FilmAanmelden(tk.Frame):
         self.naam = tk.Entry(self, width=100, font=BASE_FONT)
         self.naam.grid(row=4, column=2)
 
-        button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(), font=BASE_FONT)
+        button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(controller), font=BASE_FONT)
         button_ok.grid(row=5, column=2)
 
     def Terug(self, controller):
@@ -261,11 +269,13 @@ class FilmAanmelden(tk.Frame):
     def setData(self, data):
         self.data = data
 
-    def aanmelden(self):
+    def aanmelden(self, controller):
         api = Api()
         db = DataBase()
-        db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), "", self.naam.get(),
+        ucode = uuid4().hex
+        db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), ucode, self.naam.get(),
                     self.email.get())
+        controller.show_frame(qrFrame, ucode)
 
 
 class AanbiederLijst(tk.Frame):
@@ -274,18 +284,44 @@ class AanbiederLijst(tk.Frame):
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Gasten", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
-        button = tk.Button(self, text="Terug",
+        button = tk.Button(self, text="Uitloggen",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
-        button.grid(row=1, column=4, ipadx=600)
-        titel = tk.Label(self, text="Titel")
-        titel.grid(row=2, column=1)
-        self.titel = tk.Label(self, text="")
-        self.titel.grid(row=2, column=3)
-        jaar = tk.Label(self, text="Jaar")
-        jaar.grid(row=2, column=1)
-        self.jaar = tk.Label(self, text="")
-        self.jaar.grid(row=2, column=3)
+        button.grid(row=0, column=4)
+        titel = tk.Label(self, text="Titel", font=("Helvetica", 10, "bold", "underline"), bg=FL_BG_COLOR,
+                         fg=FL_TEXT_COLOR)
+        titel.grid(row=2, column=1, pady=20)
+        self.titel = tk.Label(self, text="", bg=FL_BG_COLOR)
+        self.titel.grid(row=2, column=4, pady=20)
+        jaar = tk.Label(self, text="Naam Gast", font=("Helvetica", 10, "bold", "underline"), bg=FL_BG_COLOR,
+                        fg=FL_TEXT_COLOR)
+        jaar.grid(row=2, column=2, pady=20)
+        self.jaar = tk.Label(self, text="", bg=FL_BG_COLOR)
+        self.jaar.grid(row=2, column=4, pady=20)
+        mail = tk.Label(self, text="Mailadres Gast", font=("Helvetica", 10, "bold", "underline"), bg=FL_BG_COLOR,
+                        fg=FL_TEXT_COLOR)
+        mail.grid(row=2, column=3, padx=200, pady=20)
+        self.mail = tk.Label(self, text="", bg=FL_BG_COLOR)
+        self.mail.grid(row=2, column=4, pady=20)
+
+    def Show(self):
+        apis = Api()
+        database = DataBase()
+        gastenlijst = database.getGastLijst(apis.getCurrentTime())
+        if not gastenlijst:
+            for cc in range(1, 4):
+                geengasten = tk.Label(self, text='Geen gasten', font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                geengasten.grid(row=3, column=cc)
+        else:
+            for titels in gastenlijst:
+                gasttitel = tk.Label(self, text=titels['film'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                gasttitel.grid(row=3, column=1)
+            for namen in gastenlijst:
+                naam_gast = tk.Label(self, text=namen['naam'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                naam_gast.grid(row=3, column=2)
+            for mails in gastenlijst:
+                mail_gast = tk.Label(self, text=mails['email'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                mail_gast.grid(row=3, column=3)
 
     def Terug(self, controller):
         controller.show_frame(LoginScreen)
@@ -293,3 +329,29 @@ class AanbiederLijst(tk.Frame):
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
+
+
+class qrFrame(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="QR-Code", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=1, ipadx=25)
+        button = tk.Button(self, text="Terug",
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
+        button.grid(row=1, column=2, ipadx=100)
+        images = ImageTk.PhotoImage(Image.open("./images/mb8jciqcde.jpg"))
+        foto = tk.Label(self, image=images, height=290, width=168)
+        foto.grid(row=3, column=2, pady=320, padx=320)
+        foto.image = images
+
+    def Terug(self, controller):
+        controller.show_frame(FilmLijst)
+        pass
+
+    def getSize(self):
+        return (self.winfo_screenwidth(), self.winfo_screenheight())
+
+    def setData(self, data):
+        self.data = data
