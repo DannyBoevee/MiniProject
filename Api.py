@@ -65,8 +65,13 @@ class Api:
         imageUrl = line[1][17:45]
         if not os.path.exists('images/'):
             os.makedirs('images/')
+<<<<<<< HEAD
+            with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
+                file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
+=======
         with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
             file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
+>>>>>>> origin/Danny
 
         return 'images/' + imageUrl[14:]
 
@@ -128,6 +133,8 @@ class Api:
                     filmtip
             Zodra de film niet is gevonden:
                 (Boolean) False
+
+                
             """
         data = self.getApiData(date, "0")
         print(data)
