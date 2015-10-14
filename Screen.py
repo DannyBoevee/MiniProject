@@ -82,7 +82,7 @@ class LoginScreen(tk.Frame):
         button.grid(row=3, column=2, sticky=tk.E)
 
     def getSize(self):
-        return (300, 130)
+        return (375, 130)
 
     def Login(self, controller):
         db = DataBase()
