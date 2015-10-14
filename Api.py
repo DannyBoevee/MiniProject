@@ -61,16 +61,10 @@ class Api:
         data = str(data)
         line = data.split('<div id="film_cover"')
         imageUrl = line[1][17:45]
-<<<<<<< HEAD
-        image = requests.get("http://www.filmtotaal.nl/" + imageUrl).content
-        encoded_string = base64.b64encode(image)
-        return encoded_string
-=======
         with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
             file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
 
         return 'images/' + imageUrl[14:]
->>>>>>> 1d6897c0051e85356a7d7d8ac8f76441705e0a9e
 
     def getMovieList(self, date):
         """

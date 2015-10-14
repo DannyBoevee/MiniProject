@@ -8,20 +8,6 @@ class DataBase:
 
     def __init__(self):
         # Connect to the database
-<<<<<<< HEAD
-        """self.connection = pymysql.connect(host='localhost',
-                                          user='thuisbios',
-                                          password='Python',
-                                          db='thuisbios',
-                                          charset='utf8mb4',
-                                          cursorclass=pymysql.cursors.DictCursor)"""
-        self.connection = pymysql.connect(host='cloud.d-consultancy.nl',
-                                          user='mini',
-                                          password='123123',
-                                          db='thuisbios',
-                                          charset='utf8mb4',
-                                          cursorclass=pymysql.cursors.DictCursor)
-=======
         try:
             self.connection = pymysql.connect(host='cloud.d-consultancy.nl',
                                               user='mini',
@@ -31,7 +17,6 @@ class DataBase:
                                               cursorclass=pymysql.cursors.DictCursor)
         except Exception as e:
             print('Fout bij de verbinding van de Mysql server')
->>>>>>> 1d6897c0051e85356a7d7d8ac8f76441705e0a9e
 
     def checkLogin(self, username, password):
         global aanbieder
