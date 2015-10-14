@@ -340,14 +340,14 @@ class qrFrame(tk.Frame):
         button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
-        button.grid(row=1, column=4, ipadx=600)
+        button.grid(row=1, column=2, ipadx=100)
         images = ImageTk.PhotoImage(Image.open("./images/mb8jciqcde.jpg"))
         foto = tk.Label(self, image=images, height=290, width=168)
         foto.grid(row=3, column=2, pady=320, padx=320)
         foto.image = images
 
     def Terug(self, controller):
-        controller.show_frame(LoginScreen)
+        controller.show_frame(FilmLijst)
         pass
 
     def getSize(self):
