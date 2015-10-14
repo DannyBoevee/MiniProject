@@ -40,6 +40,8 @@ class ScreenController(tk.Tk):
         frame = self.frames[c]
         if "setData" in dir(frame):
             frame.setData(data)
+        if "Show" in dir(frame):
+            frame.Show(data)
         frame.tkraise()
         self.setPosSize(frame.getSize())
 
@@ -122,7 +124,7 @@ class FilmLijst(tk.Frame):
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid(row=5, column=col)
             col += 1
-            if i is len(namen)-1:
+            if i is len(namen) - 1:
                 i = 0
             else:
                 i += 1
