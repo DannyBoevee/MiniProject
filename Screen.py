@@ -139,13 +139,13 @@ class FilmDetails(tk.Frame):
         button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
-        button.grid(row=1, column=3, ipadx=600)
+        button.grid(row=1, column=2, ipadx=300)
 
         # De titel van de film
         titel = tk.Message(self, text="Titel", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         titel.grid(row=4, column=1)
         self.titel = tk.Message(self, width=750, text="", font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        self.titel.grid(row=4, column=3)
+        self.titel.grid(row=4, column=2)
 
         # De beschrijving van de film
         beschrijving = tk.Message(self, text="Beschrijving", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR,
@@ -153,37 +153,37 @@ class FilmDetails(tk.Frame):
         beschrijving.grid(row=7, column=1)
         self.beschrijving = tk.Message(self, width=750, text="", font=("Helvetica", 12), bg=FL_BG_COLOR,
                                        fg=FL_TEXT_COLOR)
-        self.beschrijving.grid(row=7, column=3)
+        self.beschrijving.grid(row=7, column=2)
 
         # Het jaar van de film
         jaar = tk.Message(self, text="Jaar", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         jaar.grid(row=10, column=1)
         self.jaar = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        self.jaar.grid(row=10, column=3)
+        self.jaar.grid(row=10, column=2)
 
         # De cast van de film
         cast = tk.Message(self, text="Cast", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         cast.grid(row=13, column=1)
         self.cast = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        self.cast.grid(row=13, column=3)
+        self.cast.grid(row=13, column=2)
 
         # De genre van de film
         genre = tk.Message(self, text="Genre", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         genre.grid(row=16, column=1)
         self.genre = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        self.genre.grid(row=16, column=3)
+        self.genre.grid(row=16, column=2)
 
         # De duur van de film
         duur = tk.Message(self, text="Duur", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         duur.grid(row=19, column=1)
         self.duur = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        self.duur.grid(row=19, column=3)
+        self.duur.grid(row=19, column=2)
 
         # De zender van de film
         zender = tk.Message(self, text="Zender", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         zender.grid(row=21, column=1)
         self.zender = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        self.zender.grid(row=21, column=3)
+        self.zender.grid(row=21, column=2)
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
