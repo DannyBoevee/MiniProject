@@ -5,6 +5,7 @@ import requests
 import xmltodict
 
 
+
 class Api:
     api_key = None
     api_web = None
@@ -136,8 +137,9 @@ class Api:
                 
             """
         data = self.getApiData(date, "0")
+        print(data)
         for movie in data:
-            if (movie['titel'] == movieTitle):
+            if movie['titel'] == movieTitle:
                 return movie
-            else:
-                return False
+
+        return False
