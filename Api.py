@@ -65,13 +65,12 @@ class Api:
         imageUrl = line[1][17:45]
         if not os.path.exists('images/'):
             os.makedirs('images/')
-<<<<<<< HEAD
+
             with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
                 file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
-=======
-        with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
-            file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
->>>>>>> origin/Danny
+
+
+
 
         return 'images/' + imageUrl[14:]
 
