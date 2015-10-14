@@ -34,12 +34,12 @@ class DataBase:
             print('Fout bij het verkrijgen van de user')
             return False
 
-    def saveFilm(self, filmNaam, aanbieder, date, ucode):
+    def saveFilm(self, filmNaam, aanbieder, date, ucode, naam, email):
         global userid
         try:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (filmNaam, aanbieder, date, ucode))
+                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag, naam, email) VALUES (%s, %s, %s, %s, %s, %s)"
+                cursor.execute(sql, (filmNaam, aanbieder, date, ucode, naam, email))
             self.connection.commit()
             return True
         except Exception as e:
