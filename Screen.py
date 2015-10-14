@@ -90,23 +90,25 @@ class FilmLijst(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        label.grid(row=1, columnspan=1, column=0, sticky=W, padx=25)
-        uitleg = tk.Label(self, text="Klik op een plaatje voor informatie over de film of om een kaartje te kopen.", font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        uitleg.grid(row=2, sticky=W, padx=25, pady=25)
-        button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
+        label.grid(row=1, columnspan=1, column=0, sticky=tk.W, padx=25)
+        uitleg = tk.Label(self, text="Klik op een plaatje voor informatie over de film of om een kaartje te kopen.",
+                          font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        uitleg.grid(row=2, sticky=tk.W, padx=25, pady=25)
+        button = tk.Button(self, text="Logout", command=lambda: self.Login(controller), font=FL_BASE_FONT,
+                           bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat')
         button.grid(row=0, column=1, ipadx=820)
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             images = tk.PhotoImage(str(titel['image']))
-            b1 = tk.Button(self, image=images, height=125, width=100)
+            b1 = tk.Button(self,command=lambda titel = titel: self.details(controller, titel) , image=images, height=125, width=100)
             b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titel = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat")
-            titel.grid()
+            titelbtn = tk.Button(self,command=lambda titel = titel: self.details(controller, titel), text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
+                              fg=FL_TEXT_COLOR, relief="flat")
+            titelbtn.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
 
@@ -121,19 +123,48 @@ class FilmLijst(tk.Frame):
 
 
 class FilmDetails(tk.Frame):
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Login", font=TITLE_FONT)
-        label.grid(row=0, columnspan=5)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=BASE_FONT)
-        button.grid(row=1, column=5)
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
+        button.grid(row=1, column=4, ipadx=600)
 
-    def getSize(self):
-        return (100, 100)
+        titel = tk.Label(self, text="Titel")
+        titel.grid(row=2, column=1)
+        self.titel = tk.Label(self, text="")
+        self.titel.grid(row=2, column=3)
+        jaar = tk.Label(self, text="Jaar")
+        jaar.grid(row=2, column=1)
+        self.jaar = tk.Label(self, text="")
+        self.jaar.grid(row=2, column=3)
+
+
+
+
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
+        pass
+
+    def getSize(self):
+        return (self.winfo_screenwidth(), self.winfo_screenheight())
 
     def setData(self, data):
-        pass
+        api = Api()
+        rij = 6
+        print(data)
+        for regel in api.getMovieDescription(data["title"], api.getCurrentTime()).items():
+                info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                info.grid(row=rij, column=1)
+                info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                info.grid(row=rij, column=4)
+                rij += 9
+
+
+
+
