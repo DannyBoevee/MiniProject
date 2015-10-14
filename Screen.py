@@ -138,6 +138,10 @@ class FilmDetails(tk.Frame):
         titel.grid(row=2, column=1)
         self.titel = tk.Label(self, text="")
         self.titel.grid(row=2, column=3)
+        jaar = tk.Label(self, text="Jaar")
+        jaar.grid(row=2, column=1)
+        self.jaar = tk.Label(self, text="")
+        self.jaar.grid(row=2, column=3)
 
 
 
