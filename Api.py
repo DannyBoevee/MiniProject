@@ -132,6 +132,8 @@ class Api:
                     filmtip
             Zodra de film niet is gevonden:
                 (Boolean) False
+
+                
             """
         data = self.getApiData(date, "0")
         for movie in data:
