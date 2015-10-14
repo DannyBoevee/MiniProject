@@ -32,7 +32,7 @@ class ScreenController(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(FilmLijst)
+        self.show_frame(LoginScreen)
 
     def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
@@ -148,3 +148,4 @@ class FilmDetails(tk.Frame):
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
+
