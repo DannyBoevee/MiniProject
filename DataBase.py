@@ -12,9 +12,9 @@ class DataBase:
                                           db='thuisbios',
                                           charset='utf8mb4',
                                           cursorclass=pymysql.cursors.DictCursor)"""
-        self.connection = pymysql.connect(host='localhost',
-                                          user='root',
-                                          password='',
+        self.connection = pymysql.connect(host='cloud.d-consultancy.nl',
+                                          user='mini',
+                                          password='123123',
                                           db='thuisbios',
                                           charset='utf8mb4',
                                           cursorclass=pymysql.cursors.DictCursor)
