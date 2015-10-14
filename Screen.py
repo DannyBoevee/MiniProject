@@ -145,7 +145,7 @@ class FilmDetails(tk.Frame):
                                    command=lambda: self.aanmelden(controller),
                                    font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                                    relief='flat')
-        aanmelden.grid(row=2, column=2, ipadx=300)
+        aanmelden.grid(row=0, column=2, ipadx=300)
 
         # De titel van de film
         titel = tk.Message(self, text="Titel", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
@@ -218,18 +218,32 @@ class FilmAanmelden(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
-        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label = tk.Label(self, text="Aanmelden", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
                            command=lambda controller=controller: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=2, ipadx=300)
 
+        label = tk.Label(self, text="E-Mail: ", font=("Helvetica", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=3, column=1)
+        self.username = tk.Entry(self, width=100, font=BASE_FONT)
+        self.username.grid(row=3, column=2)
+        self.username.focus_set()
+        label = tk.Label(self, text="Naam:", font=("Helvetica", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=4, column=1)
+        self.password = tk.Entry(self, width=100,  font=BASE_FONT)
+        self.password.grid(row=4, column=2)
+
+        button_ok = tk.Button(self, text="Aanmelden", font=BASE_FONT)
+        button_ok.grid(row=5, column=2)
+
+
     def Terug(self, controller):
         controller.show_frame(FilmDetails, self.data)
 
     def getSize(self):
-        return (500, 500)
+        return (self.winfo_screenwidth(), self.winfo_screenheight())
 
     def setData(self, data):
         self.data = data
