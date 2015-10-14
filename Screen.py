@@ -227,15 +227,15 @@ class FilmAanmelden(tk.Frame):
 
         label = tk.Label(self, text="E-Mail: ", font=("Helvetica", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=3, column=1)
-        self.username = tk.Entry(self, width=100, font=BASE_FONT)
-        self.username.grid(row=3, column=2)
-        self.username.focus_set()
+        self.email = tk.Entry(self, width=100, font=BASE_FONT)
+        self.email.grid(row=3, column=2)
+        self.email.focus_set()
         label = tk.Label(self, text="Naam:", font=("Helvetica", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=4, column=1)
-        self.password = tk.Entry(self, width=100,  font=BASE_FONT)
-        self.password.grid(row=4, column=2)
+        self.naam = tk.Entry(self, width=100,  font=BASE_FONT)
+        self.naam.grid(row=4, column=2)
 
-        button_ok = tk.Button(self, text="Aanmelden", font=BASE_FONT)
+        button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(), font=BASE_FONT)
         button_ok.grid(row=5, column=2)
 
 
@@ -247,3 +247,8 @@ class FilmAanmelden(tk.Frame):
 
     def setData(self, data):
         self.data = data
+
+    def aanmelden(self):
+        api= Api()
+        db = DataBase()
+        db.saveFilm(self.data["titel"],self.data["aanbieder"],api.getCurrentTime() , "", self.naam.get(), self.email.get() )
