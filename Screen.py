@@ -123,17 +123,26 @@ class FilmLijst(tk.Frame):
 class FilmDetails(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Login", font=TITLE_FONT)
-        label.grid(row=0, columnspan=5)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=BASE_FONT)
-        button.grid(row=1, column=5)
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
+        button.grid(row=1, column=4, ipadx=600)
+        api = Api()
+        rij = 6
 
-    def getSize(self):
-        return (100, 100)
+        for regel in api.getMovieDescription("Thunderball", api.getCurrentTime()).items():
+            info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            info.grid(row=rij, column=1)
+            info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            info.grid(row=rij, column=4)
+            rij += 9
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
-
-    def setData(self, data):
         pass
+
+    def getSize(self):
+        return (self.winfo_screenwidth(), self.winfo_screenheight())
