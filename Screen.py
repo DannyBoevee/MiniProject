@@ -41,7 +41,7 @@ class ScreenController(tk.Tk):
         if "setData" in dir(frame):
             frame.setData(data)
         if "Show" in dir(frame):
-            frame.Show(data)
+            frame.Show()
         frame.tkraise()
         self.setPosSize(frame.getSize())
 
