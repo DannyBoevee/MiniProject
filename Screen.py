@@ -227,8 +227,18 @@ class AanbiederLijst(tk.Frame):
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=4, ipadx=600)
+        apis = Api()
+        database = DataBase()
+        gastenlijst = database.getGastLijst(apis.getCurrentTime())
         titel = tk.Label(self, text="Titel")
         titel.grid(row=2, column=1)
+        if gastenlijst is True:
+            for titels in gastenlijst:
+                gasttitel = tk.Label(self, text=titels['titel'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                gasttitel.grid(row=2, column=2)
+        else:
+            geengasten = tk.Label(self, text='Geen gasten', font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            geengasten.grid(row=2, column=2)
         self.titel = tk.Label(self, text="")
         self.titel.grid(row=2, column=3)
         jaar = tk.Label(self, text="Jaar")
