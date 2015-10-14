@@ -1,6 +1,7 @@
 import qrcode
 
-class qRCode:
+
+class qrCode:
     image = None
 
     def __init__(self, data):
@@ -9,7 +10,7 @@ class qRCode:
             error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=20,
             border=2,
-            )
+        )
         qr.add_data(data)
         qr.make(fit=True)
 
@@ -18,4 +19,4 @@ class qRCode:
         self.image.save('images/QR.png')
 
     def getImage(self):
-        return'images/QR.png'
+        return 'images/QR.png'
