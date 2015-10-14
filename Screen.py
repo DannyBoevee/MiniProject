@@ -100,10 +100,12 @@ class FilmLijst(tk.Frame):
         uitleg = tk.Label(self,
                           text="Klik op een plaatje of titel voor informatie over de film of om een kaartje te kopen.",
                           font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        uitleg.grid(row=2, sticky='w', padx=25, pady=50, columnspan=5)
+        uitleg.grid(row=2, sticky='w', padx=25, pady=40, columnspan=5)
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
         col = 0
+        namen = ['Jan', 'Pieter', 'Henk', 'Flip', 'Kees', 'Gerrit', 'Mike']
+        i = 0
         for titel in movie_list:
             images = ImageTk.PhotoImage(Image.open(str(titel['image'])))
             b1 = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), image=images, height=290,
@@ -112,6 +114,7 @@ class FilmLijst(tk.Frame):
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
+            titel['aanbieder'] = namen[i]
             titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
                                  font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat",
                                  activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
@@ -119,6 +122,15 @@ class FilmLijst(tk.Frame):
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid(row=5, column=col)
             col += 1
+            if i is len(namen)-1:
+                i = 0
+            else:
+                i += 1
+        aanbiedcol = 0
+        for aanbiedernamen in namen:
+            aanbieders = tk.Label(self, text=aanbiedernamen, font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+            aanbieders.grid(row=6, column=aanbiedcol)
+            aanbiedcol += 1
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
@@ -209,7 +221,7 @@ class AanbiederLijst(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
-        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label = tk.Label(self, text="Gasten", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
