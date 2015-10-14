@@ -1,8 +1,7 @@
 import tkinter as tk
+import datetime
 from DataBase import *
 from Api import *
-from tkinter import *
-import datetime
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -25,7 +24,7 @@ class ScreenController(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginScreen, FilmLijst):
+        for F in (LoginScreen, FilmLijst, FilmDetails):
             frame = F(self.container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -33,7 +32,7 @@ class ScreenController(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(LoginScreen)
+        self.show_frame(FilmLijst)
 
     def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
@@ -111,17 +110,14 @@ class FilmLijst(tk.Frame):
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
 
-
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
-    def Logout(self, controller):
+    def Login(self, controller):
         controller.show_frame(LoginScreen)
-        pass
 
     def details(self, controller, data):
-        controller.show_frame(LoginScreen, data=data)
-        pass
+        controller.show_frame(FilmDetails, data=data)
 
 
 class FilmDetails(tk.Frame):
@@ -129,16 +125,15 @@ class FilmDetails(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Login", font=TITLE_FONT)
         label.grid(row=0, columnspan=5)
-        button = tk.Button(self, text="Logout",
-                           command=lambda: self.Logout(controller), font=BASE_FONT)
+        button = tk.Button(self, text="Terug",
+                           command=lambda: self.Terug(controller), font=BASE_FONT)
         button.grid(row=1, column=5)
 
     def getSize(self):
         return (100, 100)
 
     def Terug(self, controller):
-        controller.show_frame(LoginScreen)
+        controller.show_frame(FilmLijst)
 
     def setData(self, data):
         pass
-    
