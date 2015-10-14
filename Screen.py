@@ -4,6 +4,7 @@ from DataBase import *
 from Api import *
 from PIL import Image, ImageTk
 from uuid import uuid4
+from qrCode import qrCode
 
 TITLE_FONT = ("Helvetica", 15, "bold")
 BASE_FONT = ("Helvetica", 10)
@@ -341,10 +342,8 @@ class qrFrame(tk.Frame):
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=2, ipadx=100)
-        images = ImageTk.PhotoImage(Image.open("./images/mb8jciqcde.jpg"))
-        foto = tk.Label(self, image=images, height=290, width=168)
-        foto.grid(row=3, column=2, pady=320, padx=320)
-        foto.image = images
+        self.foto = tk.Label(self, height=290, width=168)
+        self.foto.grid(row=3, column=2, pady=320, padx=320)
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
@@ -354,4 +353,6 @@ class qrFrame(tk.Frame):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
     def setData(self, data):
-        self.data = data
+        qr = qrCode(data)
+        images = ImageTk.PhotoImage(Image.open(qr.getImage()))
+        self.foto.image = images
