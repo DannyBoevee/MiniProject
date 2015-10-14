@@ -101,13 +101,15 @@ class FilmLijst(tk.Frame):
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             images = tk.PhotoImage(str(titel['image']))
-            b1 = tk.Button(self,command=lambda titel = titel: self.details(controller, titel) , image=images, height=125, width=100)
+            b1 = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), image=images, height=125,
+                           width=100)
             b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titelbtn = tk.Button(self,command=lambda titel = titel: self.details(controller, titel), text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
-                              fg=FL_TEXT_COLOR, relief="flat")
+            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
+                                 font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
+                                 fg=FL_TEXT_COLOR, relief="flat")
             titelbtn.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
@@ -123,7 +125,6 @@ class FilmLijst(tk.Frame):
 
 
 class FilmDetails(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
@@ -143,10 +144,6 @@ class FilmDetails(tk.Frame):
         self.jaar = tk.Label(self, text="")
         self.jaar.grid(row=2, column=3)
 
-
-
-
-
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
         pass
@@ -157,14 +154,4 @@ class FilmDetails(tk.Frame):
     def setData(self, data):
         api = Api()
         rij = 6
-        print(data)
-        for regel in api.getMovieDescription(data["title"], api.getCurrentTime()).items():
-                info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-                info.grid(row=rij, column=1)
-                info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-                info.grid(row=rij, column=4)
-                rij += 9
-
-
-
-
+        self.titel['text'] = data['title']
