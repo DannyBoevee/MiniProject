@@ -35,11 +35,22 @@ class DataBase:
             return False
 
     def saveFilm(self, filmId, aanbieder, date):
-        global userid
         try:
             with self.connection.cursor() as cursor:
                 sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag) VALUES (%s, %s, %s)"
                 cursor.execute(sql, (filmId, aanbieder, date))
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print('Fout bij het opslaan van de film')
+            return False
+
+    def getGastLijst(self, date):
+        global aanbieder
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s"
+                cursor.execute(sql, (aanbieder, date))
             self.connection.commit()
             return True
         except Exception as e:
