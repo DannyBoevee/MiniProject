@@ -142,7 +142,7 @@ class FilmLijst(tk.Frame):
             aanbiedcol += 1
 
     def getSize(self):
-        return (self.winfo_screenwidth(), self.winfo_screenheight())
+        return (1355, 700)
 
     def Login(self, controller):
         controller.show_frame(LoginScreen)
@@ -216,7 +216,7 @@ class FilmDetails(tk.Frame):
         controller.show_frame(FilmLijst)
 
     def getSize(self):
-        return (self.winfo_screenwidth(), self.winfo_screenheight())
+        return (1355, 700)
 
     def aanmelden(self, controller):
         controller.show_frame(FilmAanmelden, self.data)
@@ -265,7 +265,7 @@ class FilmAanmelden(tk.Frame):
         controller.show_frame(FilmDetails, self.data)
 
     def getSize(self):
-        return (self.winfo_screenwidth(), self.winfo_screenheight())
+        return (1355, 700)
 
     def setData(self, data):
         self.data = data
@@ -329,7 +329,7 @@ class AanbiederLijst(tk.Frame):
         pass
 
     def getSize(self):
-        return (self.winfo_screenwidth(), self.winfo_screenheight())
+        return (1355, 700)
 
 
 class qrFrame(tk.Frame):
@@ -349,7 +349,7 @@ class qrFrame(tk.Frame):
         pass
 
     def getSize(self):
-        return (self.winfo_screenwidth(), self.winfo_screenheight())
+        return (1355, 700)
 
     def setData(self, data):
         qr = qrCode(data)
