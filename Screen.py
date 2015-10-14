@@ -112,7 +112,7 @@ class FilmLijst(tk.Frame):
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
+            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['titel'],
                                  font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat",
                                  activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
             titelbtn.grid(row=4, column=col)
@@ -203,7 +203,7 @@ class FilmDetails(tk.Frame):
     def setData(self, data):
         api = Api()
 
-        data = api.getMovieDescription(data["title"], api.getCurrentTime())
+        data = api.getMovieDescription(data["titel"], api.getCurrentTime())
         self.data = data
         self.titel['text'] = data['titel']
         self.beschrijving["text"] = data["synopsis"]
