@@ -115,7 +115,7 @@ class FilmLijst(tk.Frame):
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
             titel['aanbieder'] = namen[i]
-            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
+            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['titel'],
                                  font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat",
                                  activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
             titelbtn.grid(row=4, column=col)
@@ -214,7 +214,9 @@ class FilmDetails(tk.Frame):
 
     def setData(self, data):
         api = Api()
+        aanbieder = data['aanbieder']
         data = api.getMovieDescription(data["titel"], api.getCurrentTime())
+        data['aanbieder'] = aanbieder
         self.data = data
         self.titel['text'] = data['titel']
         self.beschrijving["text"] = data["synopsis"]

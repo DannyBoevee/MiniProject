@@ -37,11 +37,12 @@ class DataBase:
     def saveFilm(self, filmNaam, aanbieder, date, ucode, naam, email):
         try:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag, naam, email) VALUES (%s, %s, %s, %s, %s, %s)"
+                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag, uCode, naam, email) VALUES (%s, %s, %s, %s, %s, %s)"
                 cursor.execute(sql, (filmNaam, aanbieder, date, ucode, naam, email))
             self.connection.commit()
             return True
         except Exception as e:
+            print(e)
             print('Fout bij het opslaan van de film')
             return False
 
