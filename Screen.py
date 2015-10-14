@@ -32,7 +32,7 @@ class ScreenController(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame(LoginScreen)
+        self.show_frame(FilmLijst)
 
     def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
@@ -101,14 +101,14 @@ class FilmLijst(tk.Frame):
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             images = tk.PhotoImage(str(titel['image']))
-            b1 = tk.Button(self,command=lambda: self.details(controller, titel) , image=images, height=125, width=100)
+            b1 = tk.Button(self,command=lambda titel = titel: self.details(controller, titel) , image=images, height=125, width=100)
             b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titel = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
+            titelbtn = tk.Button(self,command=lambda titel = titel: self.details(controller, titel), text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
                               fg=FL_TEXT_COLOR, relief="flat")
-            titel.grid()
+            titelbtn.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
 
@@ -123,6 +123,7 @@ class FilmLijst(tk.Frame):
 
 
 class FilmDetails(tk.Frame):
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
@@ -132,15 +133,15 @@ class FilmDetails(tk.Frame):
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=4, ipadx=600)
-        api = Api()
-        rij = 6
 
-        for regel in api.getMovieDescription("Les Dames", api.getCurrentTime()).items():
-            info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            info.grid(row=rij, column=1)
-            info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            info.grid(row=rij, column=4)
-            rij += 9
+        titel = tk.Label(self, text="Titel")
+        titel.grid(row=2, column=1)
+        self.titel = tk.Label(self, text="")
+        self.titel.grid(row=2, column=3)
+
+
+
+
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
@@ -150,5 +151,16 @@ class FilmDetails(tk.Frame):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
     def setData(self, data):
-        pass
+        api = Api()
+        rij = 6
+        print(data)
+        for regel in api.getMovieDescription(data["title"], api.getCurrentTime()).items():
+                info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                info.grid(row=rij, column=1)
+                info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                info.grid(row=rij, column=4)
+                rij += 9
+
+
+
 

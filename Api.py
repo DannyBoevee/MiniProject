@@ -130,8 +130,9 @@ class Api:
                 (Boolean) False
             """
         data = self.getApiData(date, "0")
+        print(data)
         for movie in data:
             if movie['titel'] == movieTitle:
                 return movie
-            else:
-                return False
+
+        return False
