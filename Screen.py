@@ -149,3 +149,6 @@ class FilmDetails(tk.Frame):
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
+    def setData(self, data):
+        pass
+
