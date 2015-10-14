@@ -89,26 +89,32 @@ class FilmLijst(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
-        label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        label.grid(row=1, columnspan=1, column=0, sticky='w', padx=25)
-        uitleg = tk.Label(self, text="Klik op een plaatje voor informatie over de film of om een kaartje te kopen.", font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        uitleg.grid(row=2, sticky='w', padx=25, pady=25)
         button = tk.Button(self, text="Login",
-                           command=lambda: self.Login(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
-        button.grid(row=0, column=1, ipadx=820)
+                           command=lambda: self.Login(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR,
+                           fg=FL_TEXT_COLOR, relief='flat', activebackground=FL_BG_COLOR,
+                           activeforeground=FL_TEXT_COLOR)
+        button.grid(row=0)
+        label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=0, sticky='w', padx=25)
+        uitleg = tk.Label(self, text="Klik op een plaatje voor informatie over de film of om een kaartje te kopen.",
+                          font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        uitleg.grid(row=2, sticky='w', padx=25)
         apis = Api()
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             images = tk.PhotoImage(str(titel['image']))
             b1 = tk.Button(self, image=images, height=125, width=100)
-            b1.grid(pady=10)
+            b1.grid()
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titel = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat", activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
-            titel.grid()
+            titelbtn = tk.Button(self, text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
+                                 fg=FL_TEXT_COLOR, relief="flat", activebackground=FL_BG_COLOR,
+                                 activeforeground=FL_TEXT_COLOR)
+            titelbtn.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
+
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
@@ -133,7 +139,7 @@ class FilmDetails(tk.Frame):
         api = Api()
         rij = 6
 
-        for regel in api.getMovieDescription("Thunderball", api.getCurrentTime()).items():
+        for regel in api.getMovieDescription("Les Dames", api.getCurrentTime()).items():
             info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             info.grid(row=rij, column=1)
             info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
