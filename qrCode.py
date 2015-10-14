@@ -7,15 +7,15 @@ class qRCode:
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
+            box_size=20,
+            border=2,
             )
-            qr.add_data(data)
-            qr.make(fit=True)
+        qr.add_data(data)
+        qr.make(fit=True)
 
-            self.image = qr.make_image()
+        self.image = qr.make_image()
+        print(self.image)
+        self.image.save('images/QR.png')
 
-        def getImage(self):
-            return self.image
-        
-
+    def getImage(self):
+        return'images/QR.png'
