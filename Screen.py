@@ -101,13 +101,15 @@ class FilmLijst(tk.Frame):
         movie_list = apis.getMovieList(apis.getCurrentTime())
         for titel in movie_list:
             images = tk.PhotoImage(str(titel['image']))
-            b1 = tk.Button(self,command=lambda titel = titel: self.details(controller, titel) , image=images, height=125, width=100)
+            b1 = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), image=images, height=125,
+                           width=100)
             b1.grid(pady=10)
             # save the button image from garbage collection!
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
-            titelbtn = tk.Button(self,command=lambda titel = titel: self.details(controller, titel), text=titel['title'], font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
-                              fg=FL_TEXT_COLOR, relief="flat")
+            titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['title'],
+                                 font=("Helvetica", 10, "bold"), bg=FL_BG_COLOR,
+                                 fg=FL_TEXT_COLOR, relief="flat")
             titelbtn.grid()
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
             starttijd.grid()
@@ -123,7 +125,6 @@ class FilmLijst(tk.Frame):
 
 
 class FilmDetails(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
@@ -134,51 +135,49 @@ class FilmDetails(tk.Frame):
                            relief='flat')
         button.grid(row=1, column=4, ipadx=600)
 
-        #De titel van de film
+        # De titel van de film
         titel = tk.Message(self, text="Titel", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         titel.grid(row=2, column=1)
         self.titel = tk.Message(self, width=750, text="", font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.titel.grid(row=2, column=3)
 
-        #De beschrijving van de film
-        beschrijving = tk.Message(self, text="Beschrijving", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        # De beschrijving van de film
+        beschrijving = tk.Message(self, text="Beschrijving", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR,
+                                  fg=FL_TEXT_COLOR)
         beschrijving.grid(row=2, column=1)
-        self.beschrijving = tk.Message(self, width=750, text="", font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        self.beschrijving = tk.Message(self, width=750, text="", font=("Helvetica", 12), bg=FL_BG_COLOR,
+                                       fg=FL_TEXT_COLOR)
         self.beschrijving.grid(row=2, column=3)
 
-        #Het jaar van de film
+        # Het jaar van de film
         jaar = tk.Message(self, text="Jaar", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         jaar.grid(row=4, column=1)
         self.jaar = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.jaar.grid(row=4, column=3)
 
-        #De cast van de film
+        # De cast van de film
         cast = tk.Message(self, text="Cast", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         cast.grid(row=6, column=1)
         self.cast = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.cast.grid(row=6, column=3)
 
-        #De genre van de film
+        # De genre van de film
         genre = tk.Message(self, text="Genre", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         genre.grid(row=8, column=1)
         self.genre = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.genre.grid(row=8, column=3)
 
-        #De duur van de film
+        # De duur van de film
         duur = tk.Message(self, text="Duur", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         duur.grid(row=10, column=1)
         self.duur = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.duur.grid(row=10, column=3)
 
-        #De zender van de film
+        # De zender van de film
         zender = tk.Message(self, text="Zender", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         zender.grid(row=12, column=1)
         self.zender = tk.Message(self, text="", width=750, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.zender.grid(row=12, column=3)
-
-
-
-
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
@@ -188,16 +187,4 @@ class FilmDetails(tk.Frame):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
     def setData(self, data):
-        #api = Api()
-        #rij = 6
-        #print(data)
-        #for regel in api.getMovieDescription(data["title"], api.getCurrentTime()).items():
-        #        info = tk.Message(self, width=100, text=regel[0], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        #        info.grid(row=rij, column=1)
-        #        info = tk.Message(self, width=750, text=regel[1], font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-        #        info.grid(row=rij, column=4)
-        #        rij += 9
-        pass
-
-
-
+        self.titel['text'] = data['tile']
