@@ -51,12 +51,8 @@ class DataBase:
             with self.connection.cursor() as cursor:
                 sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s  ORDER  BY film"
                 cursor.execute(sql, (aanbieder, date))
-                result = cursor.fetchone()
-            if result == None:
-                return True
-            else:
-                return result
-            return True
+                result = cursor.fetchall()
+            return result
         except Exception as e:
             print('Fout bij het ophalen van gasten')
             return False

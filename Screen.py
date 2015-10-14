@@ -228,28 +228,38 @@ class AanbiederLijst(tk.Frame):
         button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
-        button.grid(row=1, column=4, ipadx=600)
-        titel = tk.Label(self, text="Titel")
-        titel.grid(row=2, column=1)
-        self.titel = tk.Label(self, text="")
-        self.titel.grid(row=2, column=3)
-        jaar = tk.Label(self, text="Jaar")
-        jaar.grid(row=2, column=1)
-        self.jaar = tk.Label(self, text="")
-        self.jaar.grid(row=2, column=3)
+        button.grid(row=0, column=4)
+        titel = tk.Label(self, text="Titel", font=("Helvetica", 10, "bold", "underline"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        titel.grid(row=2, column=1, pady=20)
+        self.titel = tk.Label(self, text="", bg=FL_BG_COLOR)
+        self.titel.grid(row=2, column=4, pady=20)
+        jaar = tk.Label(self, text="Naam Gast", font=("Helvetica", 10, "bold", "underline"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        jaar.grid(row=2, column=2, pady=20)
+        self.jaar = tk.Label(self, text="", bg=FL_BG_COLOR)
+        self.jaar.grid(row=2, column=4, pady=20)
+        mail = tk.Label(self, text="Mailadres Gast", font=("Helvetica", 10, "bold", "underline"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        mail.grid(row=2, column=3, padx=200, pady=20)
+        self.mail = tk.Label(self, text="", bg=FL_BG_COLOR)
+        self.mail.grid(row=2, column=4, pady=20)
 
     def Show(self):
         apis = Api()
         database = DataBase()
         gastenlijst = database.getGastLijst(apis.getCurrentTime())
-        if gastenlijst is True:
-            for titels in gastenlijst:
-                gasttitel = tk.Label(self, text=titels['titel'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-                gasttitel.grid(row=2, column=2)
+        if not gastenlijst:
+            for cc in range(1, 4):
+                geengasten = tk.Label(self, text='Geen gasten', font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                geengasten.grid(row=3, column=cc)
         else:
-            geengasten = tk.Label(self, text='Geen gasten', font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
-            geengasten.grid(row=2, column=2)
-
+            for titels in gastenlijst:
+                gasttitel = tk.Label(self, text=titels['film'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                gasttitel.grid(row=3, column=1)
+            for namen in gastenlijst:
+                naam_gast = tk.Label(self, text=namen['naam'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                naam_gast.grid(row=3, column=2)
+            for mails in gastenlijst:
+                mail_gast = tk.Label(self, text=mails['email'], font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+                mail_gast.grid(row=3, column=3)
     def Terug(self, controller):
         controller.show_frame(LoginScreen)
         pass
