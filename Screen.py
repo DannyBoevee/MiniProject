@@ -77,9 +77,9 @@ class LoginScreen(tk.Frame):
         self.error.grid(row=3, column=1, columnspan=2)
 
         button = tk.Button(self, text="Terug", command=lambda: self.Terug(controller), font=BASE_FONT)
-        button.grid(row=3, column=3)
+        button.grid(row=3, column=2, sticky=tk.W)
         button = tk.Button(self, text="Login", command=lambda: self.Login(controller), font=BASE_FONT)
-        button.grid(row=3, column=4)
+        button.grid(row=3, column=2, sticky=tk.E)
 
     def getSize(self):
         return (300, 130)
