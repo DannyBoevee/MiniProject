@@ -1,6 +1,6 @@
 import pymysql.cursors
 
-userid = 0
+aanbieder = ''
 
 
 class DataBase:
@@ -19,28 +19,29 @@ class DataBase:
             print('Fout bij de verbinding van de Mysql server')
 
     def checkLogin(self, username, password):
-        global userid
+        global aanbieder
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT * FROM users WHERE username = %s And password = %s"
+                sql = "SELECT * FROM aanbieder WHERE username = %s And password = %s"
                 cursor.execute(sql, (username, password))
                 result = cursor.fetchone()
             if result == None:
                 return False
             else:
-                userid = result['id']
+                userid = result['username']
                 return True
         except Exception as e:
             print('Fout bij het verkrijgen van de user')
             return False
 
-    def seveFilmId(self, filmId):
+    def saveFilm(self, filmId, aanbieder, date):
         global userid
         try:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO usersFilms (userId, filmId) VALUES (%s, %s)"
-                cursor.execute(sql, (userid, filmId))
+                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (filmId, aanbieder, date))
             self.connection.commit()
+            return True
         except Exception as e:
-            print('Fout bij het opslaan van de film id')
+            print('Fout bij het opslaan van de film')
             return False
