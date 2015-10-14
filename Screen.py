@@ -25,7 +25,7 @@ class ScreenController(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LoginScreen, FilmLijst, FilmDetails):
+        for F in (LoginScreen, FilmLijst, FilmDetails, FilmAanmelden):
             frame = F(self.container, self)
             self.frames[F] = frame
             # put all of the pages in the same location;
@@ -132,6 +132,7 @@ class FilmLijst(tk.Frame):
 
 class FilmDetails(tk.Frame):
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
@@ -140,6 +141,11 @@ class FilmDetails(tk.Frame):
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=1, column=2, ipadx=300)
+        aanmelden = tk.Button(self, text="Aanmelden",
+                                   command=lambda: self.aanmelden(controller),
+                                   font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                                   relief='flat')
+        aanmelden.grid(row=2, column=2, ipadx=300)
 
         # De titel van de film
         titel = tk.Message(self, text="Titel", width=100, font=("Helvetica", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
@@ -187,15 +193,18 @@ class FilmDetails(tk.Frame):
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
-        pass
 
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
+
+    def aanmelden(self, controller):
+        controller.show_frame(FilmAanmelden, self.data)
 
     def setData(self, data):
         api = Api()
 
         data = api.getMovieDescription(data["title"], api.getCurrentTime())
+        self.data = data
         self.titel['text'] = data['titel']
         self.beschrijving["text"] = data["synopsis"]
         self.jaar["text"] = data["jaar"]
@@ -203,3 +212,24 @@ class FilmDetails(tk.Frame):
         self.genre["text"] = data["genre"]
         self.duur["text"] = data["duur"]
         self.zender["text"] = data["zender"]
+
+
+class FilmAanmelden(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.configure(bg=FL_BG_COLOR)
+        label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        label.grid(row=1, column=1, ipadx=25)
+        button = tk.Button(self, text="Terug",
+                           command=lambda controller=controller: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
+                           relief='flat')
+        button.grid(row=1, column=2, ipadx=300)
+
+    def Terug(self, controller):
+        controller.show_frame(FilmDetails, self.data)
+
+    def getSize(self):
+        return (500, 500)
+
+    def setData(self, data):
+        self.data = data
