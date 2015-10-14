@@ -35,9 +35,11 @@ class ScreenController(tk.Tk):
 
         self.show_frame(LoginScreen)
 
-    def show_frame(self, c):
+    def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
         frame = self.frames[c]
+        if "setData" in dir(frame):
+            frame.setData(data)
         frame.tkraise()
         self.setPosSize(frame.getSize())
 
@@ -117,6 +119,10 @@ class FilmLijst(tk.Frame):
         controller.show_frame(LoginScreen)
         pass
 
+    def details(self, controller, data):
+        controller.show_frame(LoginScreen, data=data)
+        pass
+
 
 class FilmDetails(tk.Frame):
     def __init__(self, parent, controller):
@@ -130,7 +136,9 @@ class FilmDetails(tk.Frame):
     def getSize(self):
         return (100, 100)
 
-    def Logout(self, controller):
+    def Terug(self, controller):
         controller.show_frame(LoginScreen)
+
+    def setData(self, data):
         pass
     
