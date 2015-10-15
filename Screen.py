@@ -112,6 +112,10 @@ class FilmLijst(tk.Frame):
                           font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         uitleg.grid(row=2, sticky='w', padx=25, pady=40, columnspan=5)
 
+        xscrollbar = tk.Scrollbar(orient='horizontal')
+        xscrollbar.pack(side='bottom', fill='x')
+        xscrollbar.config(command=xscrollbar.set)
+
     def getSize(self):
         return (1330, 720)
 
@@ -304,10 +308,10 @@ class FilmDetailsAanbieder(tk.Frame):
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
+                           relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
         button.grid(row=0, column=2, ipadx=300)
         self.aanbieder = tk.Button(self, font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                                   relief='flat')
+                                   relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
         self.aanbieder.grid(row=1, column=2, ipadx=300)
 
         # De titel van de film
