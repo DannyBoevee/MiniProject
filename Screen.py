@@ -231,7 +231,7 @@ class FilmDetails(tk.Frame):
         controller.show_frame(FilmAanmelden, self.data)
 
     def getSize(self):
-        return (1330, 900)
+        return (1330, 800)
 
     def setData(self, data):
         api = Api()
@@ -357,7 +357,7 @@ class FilmDetailsAanbieder(tk.Frame):
         controller.show_frame(FilmLijstAanbieder)
 
     def getSize(self):
-        return (1330, 900)
+        return (1330, 800)
 
     def setData(self, data):
         api = Api()
