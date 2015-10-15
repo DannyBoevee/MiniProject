@@ -34,14 +34,15 @@ class DataBase:
             print('Fout bij het verkrijgen van de user')
             return False
 
-    def saveFilm(self, filmId, aanbieder, date):
+    def saveFilm(self, filmNaam, aanbieder, date, ucode, naam, email):
         try:
             with self.connection.cursor() as cursor:
-                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag) VALUES (%s, %s, %s)"
-                cursor.execute(sql, (filmId, aanbieder, date))
+                sql = "INSERT INTO aanwezichheidBijFilm (film, aanbieder, dag, uCode, naam, email) VALUES (%s, %s, %s, %s, %s, %s)"
+                cursor.execute(sql, (filmNaam, aanbieder, date, ucode, naam, email))
             self.connection.commit()
             return True
         except Exception as e:
+            print(e)
             print('Fout bij het opslaan van de film')
             return False
 
@@ -57,16 +58,16 @@ class DataBase:
             print('Fout bij het opslaan van de film')
             return False
 
-    def getGastLijst(self, date):
+    def getGastLijst(self, film, date):
         global aanbieder
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s"
-                cursor.execute(sql, (aanbieder, date))
-            self.connection.commit()
-            return True
+                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s  AND film = %s"
+                cursor.execute(sql, (aanbieder, date, film))
+                result = cursor.fetchall()
+            return result
         except Exception as e:
-            print('Fout bij het opslaan van de film')
+            print('Fout bij het ophalen van gasten')
             return False
 
     def checkFilmAanbieder(self, film, date):
@@ -88,7 +89,8 @@ class DataBase:
             with self.connection.cursor() as cursor:
                 sql = "SELECT * FROM aanwezichheidBijAanbieder WHERE film = %s AND dag = %s"
                 cursor.execute(sql, (film, date))
-                return cursor.fetchone()
+                result = cursor.fetchone()
+            return result['aanbieder']
         except Exception as e:
             print('Fout bij het ophalen van de aanbieder')
             return False
