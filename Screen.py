@@ -111,10 +111,6 @@ class FilmLijst(tk.Frame):
                           font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         uitleg.grid(row=2, sticky='w', padx=25, pady=40, columnspan=5)
 
-        xscrollbar = tk.Scrollbar(orient='horizontal')
-        xscrollbar.pack(side='bottom', fill='x')
-        xscrollbar.config(command=xscrollbar.set)
-
     def getSize(self):
         return (self.winfo_screenwidth(), self.winfo_screenheight())
 
