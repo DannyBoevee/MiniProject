@@ -430,7 +430,7 @@ class AanbiederLijst(tk.Frame):
         self.configure(bg=FL_BG_COLOR)
         label = tk.Label(self, text="Gasten", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
-        button = tk.Button(self, text="Uitloggen",
+        button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
                            relief='flat')
         button.grid(row=0, column=4)
