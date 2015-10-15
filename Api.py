@@ -80,7 +80,7 @@ class Api:
         movies = []
         for movie in data:
             image = self.getMovieImage(movie['ft_link'])
-            movies.append({"title": movie['titel'], "starttijd": movie['starttijd'], "image": image})
+            movies.append({"titel": movie['titel'], "starttijd": movie['starttijd'], "image": image})
         return movies
 
     def getDailyrRecommendable(self, date):
