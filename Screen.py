@@ -82,7 +82,7 @@ class LoginScreen(tk.Frame):
         button.grid(row=3, column=2, sticky=tk.E)
 
     def getSize(self):
-        return (375, 130)
+        return (300, 130)
 
     def Login(self, controller):
         db = DataBase()
@@ -103,7 +103,7 @@ class FilmLijst(tk.Frame):
         button = tk.Button(self, text="Login",
                            command=lambda: self.Login(controller), font=FL_BASE_FONT, bg="#670000",
                            fg=FL_TEXT_COLOR, relief='ridge', activebackground="#b26666")
-        button.grid(row=1, column=6, ipadx=100)
+        button.grid(row=1, column=5,columnspan=2, ipadx=100)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=0, sticky='w', padx=25, columnspan=5)
         uitleg = tk.Label(self,
@@ -116,7 +116,7 @@ class FilmLijst(tk.Frame):
         xscrollbar.config(command=xscrollbar.set)
 
     def getSize(self):
-        return (1330, 720)
+        return (1370, 720)
 
     def Login(self, controller):
         controller.show_frame(LoginScreen)
@@ -235,7 +235,7 @@ class FilmDetails(tk.Frame):
         controller.show_frame(FilmAanmelden, self.data)
 
     def getSize(self):
-        return (1330, 720)
+        return (1330, 900)
 
     def setData(self, data):
         api = Api()
@@ -261,7 +261,7 @@ class FilmLijstAanbieder(tk.Frame):
                            command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg="#670000",
                            fg=FL_TEXT_COLOR, relief='ridge', activebackground="#b26666",
                            activeforeground=FL_TEXT_COLOR)
-        button.grid(row=0, column=6, ipadx=100)
+        button.grid(row=1, column=5,columnspan=2, ipadx=100)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=0, sticky='w', padx=25, columnspan=5)
         uitleg = tk.Label(self,
@@ -288,7 +288,7 @@ class FilmLijstAanbieder(tk.Frame):
             col += 1
 
     def getSize(self):
-        return (1330, 720)
+        return (1355, 720)
 
     def Logout(self, controller):
         controller.show_frame(LoginScreen)
@@ -361,7 +361,7 @@ class FilmDetailsAanbieder(tk.Frame):
         controller.show_frame(FilmLijstAanbieder)
 
     def getSize(self):
-        return (1330, 720)
+        return (1330, 900)
 
     def setData(self, data):
         api = Api()
@@ -424,7 +424,7 @@ class FilmAanmelden(tk.Frame):
         controller.show_frame(FilmDetails, self.data)
 
     def getSize(self):
-        return (1330, 720)
+        return (1330, 350)
 
     def setData(self, data):
         self.data = data
@@ -508,11 +508,11 @@ class qrFrame(tk.Frame):
         pass
 
     def getSize(self):
-        return (1330, 720)
+        return (900, 875)
 
     def setData(self, data):
         qr = qrCode(data)
         images = ImageTk.PhotoImage(Image.open(qr.getImage()))
         self.foto = tk.Label(self, image=images, height=580, width=580)
-        self.foto.grid(row=2, column=2, pady=25, padx=25)
+        self.foto.grid(row=2, column=0, columnspan=3, pady=25, padx=25)
         self.foto.image = images
