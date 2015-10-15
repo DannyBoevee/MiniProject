@@ -390,7 +390,7 @@ class FilmAanmelden(tk.Frame):
         button = tk.Button(self, text="Terug",
                            command=lambda controller=controller: self.Terug(controller), font=FL_BASE_FONT,
                            bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
+                           relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
         button.grid(row=1, column=2, ipadx=300)
 
         label = tk.Label(self, text="E-Mail: ", font=("Helvetica", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
