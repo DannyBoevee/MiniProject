@@ -170,7 +170,7 @@ class FilmDetails(tk.Frame):
         button = tk.Button(self, text="Terug",
                            command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
                            relief='ridge', activebackground="#b26666")
-        button.grid(row=0, column=2, ipadx=100)
+        button.grid(row=1, column=2, ipadx=100, sticky=tk.N)
 
         button = tk.Button(self, text="Aanmelden",
                            command=lambda: self.Aanmelden(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
