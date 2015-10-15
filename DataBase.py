@@ -46,14 +46,66 @@ class DataBase:
             print('Fout bij het opslaan van de film')
             return False
 
-    def getGastLijst(self, date):
+    def saveAanbieder(self, film, date):
         global aanbieder
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s  ORDER  BY film"
-                cursor.execute(sql, (aanbieder, date))
+                sql = "INSERT INTO aanwezichheidBijAanbieder (film, aanbieder, dag) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (film, aanbieder, date))
+            self.connection.commit()
+            return True
+        except Exception as e:
+            print('Fout bij het opslaan van de film')
+            return False
+
+    def getGastLijst(self, film, date):
+        global aanbieder
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM aanwezichheidBijFilm WHERE aanbieder = %s AND dag = %s  AND film = %s"
+                cursor.execute(sql, (aanbieder, date, film))
                 result = cursor.fetchall()
             return result
         except Exception as e:
             print('Fout bij het ophalen van gasten')
+            return False
+
+    def checkFilmAanbieder(self, film, date):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM aanwezichheidBijAanbieder WHERE film = %s AND dag = %s"
+                cursor.execute(sql, (film, date))
+                result = cursor.fetchone()
+            if result == None:
+                return False
+            else:
+                return True
+        except Exception as e:
+            print('Fout bij het ophalen van de aanbieder')
+            return False
+
+    def getFilmAanbieder(self, film, date):
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM aanwezichheidBijAanbieder WHERE film = %s AND dag = %s"
+                cursor.execute(sql, (film, date))
+                result = cursor.fetchone()
+            return result['aanbieder']
+        except Exception as e:
+            print('Fout bij het ophalen van de aanbieder')
+            return False
+
+    def checkFilmBijAanbieder(self, film, date):
+        global aanbieder
+        try:
+            with self.connection.cursor() as cursor:
+                sql = "SELECT * FROM aanwezichheidBijAanbieder WHERE film = %s AND dag = %s AND aanbieder = %s"
+                cursor.execute(sql, (film, date, aanbieder))
+                result = cursor.fetchone()
+            if result == None:
+                return False
+            else:
+                return True
+        except Exception as e:
+            print('Fout bij het ophalen van de aanbieder')
             return False
