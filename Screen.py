@@ -60,7 +60,7 @@ class LoginScreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         # controller.setPosSize(200, 100, parent)
-        label = tk.Label(self, text="Login", font=TITLE_FONT)
+        label = tk.Label(self, text="Login", font=("Tahoma", 15, "bold"))
         label.grid(row=0, columnspan=4)
 
         label = tk.Label(self, text="Gebruikersnaam: ", font=BASE_FONT)
@@ -101,10 +101,9 @@ class FilmLijst(tk.Frame):
         self.controller = controller
         self.configure(bg=FL_BG_COLOR)
         button = tk.Button(self, text="Login",
-                           command=lambda: self.Login(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR,
-                           fg=FL_TEXT_COLOR, relief='flat', activebackground=FL_BG_COLOR,
-                           activeforeground=FL_TEXT_COLOR)
-        button.grid(row=0, column=6)
+                           command=lambda: self.Login(controller), font=FL_BASE_FONT, bg="#670000",
+                           fg=FL_TEXT_COLOR, relief='ridge', activebackground="#b26666")
+        button.grid(row=1, column=6, ipadx=100)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=0, sticky='w', padx=25, columnspan=5)
         uitleg = tk.Label(self,
@@ -169,14 +168,14 @@ class FilmDetails(tk.Frame):
         label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
-        button.grid(row=0, column=2, ipadx=300)
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
+                           relief='ridge', activebackground="#b26666")
+        button.grid(row=0, column=2, ipadx=100)
 
         button = tk.Button(self, text="Aanmelden",
-                           command=lambda: self.Aanmelden(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
-        button.grid(row=1, column=2, ipadx=300)
+                           command=lambda: self.Aanmelden(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
+                           relief='ridge', activebackground="#b26666")
+        button.grid(row=1, column=2, ipadx=100)
 
         # De titel van de film
         titel = tk.Message(self, text="Titel", width=100, font=("Tahoma", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
@@ -259,10 +258,10 @@ class FilmLijstAanbieder(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.configure(bg=FL_BG_COLOR)
         button = tk.Button(self, text="Uitloggen",
-                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR,
-                           fg=FL_TEXT_COLOR, relief='flat', activebackground=FL_BG_COLOR,
+                           command=lambda: self.Logout(controller), font=FL_BASE_FONT, bg="#670000",
+                           fg=FL_TEXT_COLOR, relief='ridge', activebackground="#b26666",
                            activeforeground=FL_TEXT_COLOR)
-        button.grid(row=0, column=6)
+        button.grid(row=0, column=6, ipadx=100)
         label = tk.Label(self, text="Films", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=0, sticky='w', padx=25, columnspan=5)
         uitleg = tk.Label(self,
@@ -281,7 +280,7 @@ class FilmLijstAanbieder(tk.Frame):
             b1.image = images
             tijd = datetime.datetime.fromtimestamp(int(titel['starttijd']))
             titelbtn = tk.Button(self, command=lambda titel=titel: self.details(controller, titel), text=titel['titel'],
-                                 font=("Tahoma", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief="flat",
+                                 font=("Tahoma", 10, "bold"), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR, relief='ridge',
                                  activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
             titelbtn.grid(row=4, column=col)
             starttijd = tk.Label(self, text=str(tijd), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
@@ -307,11 +306,11 @@ class FilmDetailsAanbieder(tk.Frame):
         label = tk.Label(self, text="Film Details", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
-        button.grid(row=0, column=2, ipadx=300)
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
+                           relief='ridge', activebackground="#b26666", activeforeground=FL_TEXT_COLOR)
+        button.grid(row=0, column=2, ipadx=100)
         self.aanbieder = tk.Button(self, font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                                   relief='flat', activebackground=FL_BG_COLOR, activeforeground=FL_TEXT_COLOR)
+                                   relief='ridge', activebackground="#b26666", activeforeground=FL_TEXT_COLOR)
         self.aanbieder.grid(row=1, column=2, ipadx=300)
 
         # De titel van de film
@@ -404,9 +403,9 @@ class FilmAanmelden(tk.Frame):
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
                            command=lambda controller=controller: self.Terug(controller), font=FL_BASE_FONT,
-                           bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
-        button.grid(row=1, column=2, ipadx=300)
+                           bg="#670000", fg=FL_TEXT_COLOR,
+                           relief='ridge', activebackground="#b26666")
+        button.grid(row=1, column=2, ipadx=100)
 
         label = tk.Label(self, text="E-Mail: ", font=("Tahoma", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=3, column=1)
@@ -418,8 +417,8 @@ class FilmAanmelden(tk.Frame):
         self.naam = tk.Entry(self, width=100, font=BASE_FONT)
         self.naam.grid(row=4, column=2)
 
-        button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(controller), font=BASE_FONT)
-        button_ok.grid(row=5, column=2)
+        button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(controller), bg="#670000", fg=FL_TEXT_COLOR, relief='ridge', font=BASE_FONT, activebackground="#b26666")
+        button_ok.grid(row=5, column=2, ipadx=100)
 
     def Terug(self, controller):
         controller.show_frame(FilmDetails, self.data)
@@ -446,8 +445,8 @@ class AanbiederLijst(tk.Frame):
         label = tk.Label(self, text="Gasten", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
+                           relief='ridge', activebackground="#b26666")
         button.grid(row=0, column=4)
         titel = tk.Label(self, text="Titel", font=("Tahoma", 10, "bold", "underline"), bg=FL_BG_COLOR,
                          fg=FL_TEXT_COLOR)
@@ -500,8 +499,8 @@ class qrFrame(tk.Frame):
         label = tk.Label(self, text="QR-Code", font=FL_TITLE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         label.grid(row=1, column=1, ipadx=25)
         button = tk.Button(self, text="Terug",
-                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg=FL_BG_COLOR, fg=FL_TEXT_COLOR,
-                           relief='flat')
+                           command=lambda: self.Terug(controller), font=FL_BASE_FONT, bg="#670000", fg=FL_TEXT_COLOR,
+                           relief='ridge', activebackground="#b26666")
         button.grid(row=1, column=2, ipadx=100)
 
     def Terug(self, controller):
