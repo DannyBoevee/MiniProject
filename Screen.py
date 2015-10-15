@@ -22,6 +22,7 @@ class ScreenController(tk.Tk):
         # on top of each other, then the one we want visible
         # will be raised above the others
         self.container = tk.Frame(self)
+        self.title('ThuisBios')
         self.container.pack(side="top", fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
