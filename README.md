@@ -39,3 +39,35 @@ spontsh
 mike
 suzen
 
+
+Applicatie
+
+Aanmelden film:
+
+- Kies een film.
+
+- Klik op aanmelden.
+
+- Voer uw Email en naam in.
+
+- U krijgt een QR code in het scherm.
+
+Lijst van aangemelden:
+
+- Klik op Login.
+
+- Voer uw gebruikersnaam en login in.
+
+- Kies uw film.
+
+- klik op gastenlijst. ( Zodra er gereserveerd staat zijn er nog geen aanmeldingen )
+
+Film aanmelden:
+
+- Klik op Login.
+
+- Voer uw gebruikersnaam en login in.
+
+- Kies uw film.
+
+- Klik op reserveren.
