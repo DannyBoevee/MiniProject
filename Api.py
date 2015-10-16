@@ -7,6 +7,7 @@ import xmltodict
 class Api:
     api_key = None
     api_web = None
+    error = ''
 
     def __init__(self):
         self.api_key = '9smtwozmiugid4m8m5f9n6g1oaiwt6r4'
@@ -43,10 +44,10 @@ class Api:
         try:
             request = requests.get(self.getApiUrl(date, sort))
             data = xmltodict.parse(request.text)
-        except:
-            return False
-        finally:
             return data['filmsoptv']['film']
+        except requests.RequestException as e:
+            self.error = "Er kon geen verbinding gemaakt worden"
+            return []
 
     def getCurrentTime(self):
         """
@@ -56,17 +57,14 @@ class Api:
         """
         return time.strftime(time.strftime("%d-%m-%Y"))
 
-    def getMovieImage(self, url):
-        data = requests.get(url).content
-        data = str(data)
-        line = data.split('<div id="film_cover"')
-        imageUrl = line[1][17:45]
+    def getMovieImage(self, imageUrl):
         if not os.path.exists('images/'):
             os.makedirs('images/')
-        with open('images/' + imageUrl[14:-4] + '.jpg', 'wb') as file:
-            file.write(requests.get("http://www.filmtotaal.nl/" + imageUrl).content)
+        if not os.path.isfile('images/' + imageUrl[39:]):
+            with open('images/' + imageUrl[39:-4] + '.jpg', 'wb') as file:
+                file.write(requests.get(imageUrl).content)
 
-        return 'images/' + imageUrl[14:]
+        return 'images/' + imageUrl[39:]
 
     def getMovieList(self, date):
         """
@@ -79,7 +77,7 @@ class Api:
         data = self.getApiData(date, "0")
         movies = []
         for movie in data:
-            image = self.getMovieImage(movie['ft_link'])
+            image = self.getMovieImage(movie['cover'])
             movies.append({"titel": movie['titel'], "starttijd": movie['starttijd'], "image": image})
         return movies
 
@@ -136,3 +134,6 @@ class Api:
                 return movie
 
         return False
+
+    def getError(self):
+        return self.error
