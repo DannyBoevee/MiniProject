@@ -7,6 +7,7 @@ import xmltodict
 class Api:
     api_key = None
     api_web = None
+    error = ''
 
     def __init__(self):
         self.api_key = '9smtwozmiugid4m8m5f9n6g1oaiwt6r4'
@@ -43,10 +44,10 @@ class Api:
         try:
             request = requests.get(self.getApiUrl(date, sort))
             data = xmltodict.parse(request.text)
-        except:
-            return False
-        finally:
             return data['filmsoptv']['film']
+        except requests.RequestException as e:
+            self.error = "Er kon geen verbinding gemaakt worden"
+            return []
 
     def getCurrentTime(self):
         """
@@ -136,3 +137,6 @@ class Api:
                 return movie
 
         return False
+
+    def getError(self):
+        return self.error

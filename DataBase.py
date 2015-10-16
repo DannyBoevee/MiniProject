@@ -5,6 +5,7 @@ aanbieder = ''
 
 class DataBase:
     connection = None
+    error = ''
 
     def __init__(self):
         # Connect to the database
@@ -16,7 +17,7 @@ class DataBase:
                                               charset='utf8mb4',
                                               cursorclass=pymysql.cursors.DictCursor)
         except Exception as e:
-            print('Fout bij de verbinding van de Mysql server')
+            print('Fout bij het verbinden met de Mysql server')
 
     def checkLogin(self, username, password):
         global aanbieder
@@ -26,12 +27,13 @@ class DataBase:
                 cursor.execute(sql, (username, password))
                 result = cursor.fetchone()
             if result == None:
+                self.error = "Gegevens zijn onjuist"
                 return False
             else:
                 aanbieder = result['username']
                 return True
         except Exception as e:
-            print('Fout bij het verkrijgen van de user')
+            self.error = "Er kon geen verbinding gemaakt worden"
             return False
 
     def saveFilm(self, filmNaam, aanbieder, date, ucode, naam, email):
@@ -109,3 +111,6 @@ class DataBase:
         except Exception as e:
             print('Fout bij het ophalen van de aanbieder')
             return False
+
+    def getError(self):
+        return self.error
