@@ -49,8 +49,8 @@ class ScreenController(tk.Tk):
         self.container.update_idletasks()
         w = self.container.winfo_screenwidth()
         h = self.container.winfo_screenheight()
-        x = int(w / 2 - size[0] / 2)
-        y = int(h / 2 - size[1] / 2)
+        x = int(w / 2.0 - size[0] / 2.0)
+        y = int(h / 2.0 - size[1] / 2.0 - 33.0)
         self.container.master.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
 
