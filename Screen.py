@@ -15,6 +15,8 @@ FL_BASE_FONT = ("Tahoma", 10)
 
 
 class ScreenController(tk.Tk):
+    frames = {}
+
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
@@ -27,21 +29,17 @@ class ScreenController(tk.Tk):
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
-        for F in (LoginScreen, FilmLijst, FilmDetails, FilmAanmelden, AanbiederLijst, qrFrame, FilmDetailsAanbieder,
-                  FilmLijstAanbieder):
-            frame = F(self.container, self)
-            self.frames[F] = frame
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
-            frame.grid(row=0, column=0, sticky="nsew")
-
         self.show_frame(FilmLijst)
 
     def show_frame(self, c, data=None):
         '''Show a frame for the given class'''
-        frame = self.frames[c]
+        if c in self.frames:
+            frame = self.frames[c]
+        else:
+            frame = c(self.container, self)
+            frame.grid(row=0, column=0, sticky="nsew")
+            self.frames[c] = frame
+
         if "setData" in dir(frame):
             frame.setData(data)
         frame.tkraise()
