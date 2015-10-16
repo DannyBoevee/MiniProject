@@ -18,3 +18,24 @@ xmltodict       0.9.2
 
 
 Start het programma van uit main.py.
+
+Aanbieder logins zijn:
+
+Jan
+Jans
+
+Pieter
+Pat
+
+Henk
+Pasw
+
+Kees
+Piet
+
+Gerrit
+spontsh
+
+mike
+suzen
+
