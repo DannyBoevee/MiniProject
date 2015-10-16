@@ -422,6 +422,8 @@ class FilmAanmelden(tk.Frame):
         label.grid(row=4, column=1)
         self.naam = tk.Entry(self, width=100, font=BASE_FONT)
         self.naam.grid(row=4, column=2)
+        self.error = tk.Label(self, text="", font=("Tahoma", 16), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        self.error.grid(row=5, column=1)
 
         button_ok = tk.Button(self, text="Aanmelden", command=lambda: self.aanmelden(controller), bg="#670000",
                               fg=FL_TEXT_COLOR, relief='ridge', font=BASE_FONT, activebackground="#b26666")
@@ -434,15 +436,19 @@ class FilmAanmelden(tk.Frame):
         return (1330, 350)
 
     def setData(self, data):
+        self.error.configure(text='')
         self.data = data
 
     def aanmelden(self, controller):
-        api = Api()
-        db = DataBase()
-        ucode = uuid4().hex
-        db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), ucode, self.naam.get(),
-                    self.email.get())
-        controller.show_frame(qrFrame, ucode)
+        if self.data["titel"] == '' and self.data["aanbieder"] == '':
+            self.error.configure(text='Vul alle gegevens in.')
+        else:
+            api = Api()
+            db = DataBase()
+            ucode = uuid4().hex
+            db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), ucode, self.naam.get(),
+                        self.email.get())
+            controller.show_frame(qrFrame, ucode)
 
 
 class AanbiederLijst(tk.Frame):
