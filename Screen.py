@@ -447,14 +447,13 @@ class FilmAanmelden(tk.Frame):
         self.data = data
 
     def aanmelden(self, controller):
-        if self.data["titel"] == '' and self.data["aanbieder"] == '':
+        if self.naam.get() == '' or self.email.get() == '':
             self.error.configure(text='Vul alle gegevens in.')
         else:
             api = Api()
             db = DataBase()
             ucode = uuid4().hex
-            db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), ucode, self.naam.get(),
-                        self.email.get())
+            db.saveFilm(self.data["titel"], self.data["aanbieder"], api.getCurrentTime(), ucode, self.naam.get(), self.email.get())
             controller.show_frame(qrFrame, ucode)
 
 
@@ -524,10 +523,9 @@ class qrFrame(tk.Frame):
 
     def Terug(self, controller):
         controller.show_frame(FilmLijst)
-        pass
 
     def getSize(self):
-        return (900, 875)
+        return (900, 775)
 
     def setData(self, data):
         qr = qrCode(data)
