@@ -363,6 +363,12 @@ class FilmDetailsAanbieder(tk.Frame):
         self.zender = tk.Message(self, text="", width=750, font=("Tahoma", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
         self.zender.grid(row=21, column=2)
 
+        #De cover van de film
+        foto = tk.Message(self, text="Cover", width=100, font=("Tahoma", 12), bg=FL_BG_COLOR, fg=FL_TEXT_COLOR)
+        foto.grid(row=26, column=1)
+        self.foto = tk.Label(self, image="", height=290,width=168)
+        self.foto.grid(row=26, column=2, pady=25, padx=10)
+
     def Terug(self, controller):
         controller.show_frame(FilmLijstAanbieder)
 
@@ -372,6 +378,9 @@ class FilmDetailsAanbieder(tk.Frame):
     def setData(self, data):
         api = Api()
         db = DataBase()
+        images = ImageTk.PhotoImage(Image.open(str(data["image"])))
+        self.foto.configure(image = images)
+        self.foto.image = images
         data = api.getMovieDescription(data["titel"], api.getCurrentTime())
         if db.checkFilmBijAanbieder(data['titel'], api.getCurrentTime()):
             self.aanbieder.configure(text="Gasten lijst",
