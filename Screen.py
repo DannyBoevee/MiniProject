@@ -381,16 +381,14 @@ class FilmDetailsAanbieder(tk.Frame):
         images = ImageTk.PhotoImage(Image.open(str(data["image"])))
         self.foto.configure(image = images)
         self.foto.image = images
-        data = api.getMovieDescription(data["titel"], api.getCurrentTime())
         if db.checkFilmBijAanbieder(data['titel'], api.getCurrentTime()):
             self.aanbieder.configure(text="Gasten lijst",
-                                     command=lambda controller=self.controller: self.gastenlijst(controller, data))
+                                     command=lambda controller=self.controller, data=data: self.gastenlijst(controller, data))
         elif db.checkFilmAanbieder(data['titel'], api.getCurrentTime()):
             self.aanbieder.configure(text="Gereserveerd", command="")
         else:
             self.aanbieder.configure(text="Aanbieden", command=lambda: self.aanbieden(data))
         data = api.getMovieDescription(data["titel"], api.getCurrentTime())
-        self.data = data
         self.titel['text'] = data['titel']
         self.beschrijving["text"] = data["synopsis"]
         self.jaar["text"] = data["jaar"]
@@ -488,7 +486,6 @@ class AanbiederLijst(tk.Frame):
 
     def Terug(self, controller):
         controller.show_frame(FilmDetailsAanbieder, self.data)
-        pass
 
     def getSize(self):
         return (1330, 720)
